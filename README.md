@@ -48,26 +48,22 @@ cd zoco
 
 ### 2. Create and activate a virtual environment
 ```bash
-Copy code
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 ```
 
 ### 3. Install dependencies
 ```bash
-Copy code
 pip install -r requirements.txt
 ```
 
 ### 4. Apply migrations
 ```bash
-Copy code
 python manage.py migrate
 ```
 
 ### 5. Run the development server
 ```bash
-Copy code
 python manage.py runserver
 ```
 
