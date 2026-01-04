@@ -77,7 +77,6 @@ This project is under active development
 ---
 
 ## 📄 License
-```text
 This project is licensed under the MIT License.
-```
+
 ---
