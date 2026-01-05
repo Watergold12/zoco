@@ -7,6 +7,9 @@ class category(models.Model):
 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name_plural = 'Categories'
 
 # Customer's model
 class customer(models.Model):
@@ -27,6 +30,8 @@ class product(models.Model):
     description = models.TextField(default='', blank=True, null=True)
     stock_quantity = models.IntegerField()
     image = models.ImageField(upload_to='uploads/products/')
+    is_new = models.BooleanField(default=False)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
