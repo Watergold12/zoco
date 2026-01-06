@@ -1,0 +1,52 @@
+<!-- Header Section -->
+    <header style="padding: 5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
+        <div class="section-container" style="padding: 0 2rem; text-align: center;">
+            <span class="product-category scroll-reveal block" style="margin-bottom: 1rem;">Seasonal Edit 2026</span>
+            <h1 class="section-title font-heading scroll-reveal" style="font-size: 3.75rem;">The Dress Collection</h1>
+            <p class="section-subtitle scroll-reveal" style="margin: 0 auto; max-width: 36rem;">"Effortless elegance
+                for every moment. Simply hover over an image to add it to your selection."</p>
+        </div>
+    </header>
+
+
+style="padding: 5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);"
+style="padding: 0 2rem; text-align: center;"
+style="margin-bottom: 1rem;"
+style="font-size: 3.75rem;"
+style="margin: 0 auto; max-width: 36rem;"
+
+{% comment %} <!-- Products Grid -->
+    <main class="section-container" style="padding: 5rem 2rem;">
+        <div id="productGrid" class="collections-grid">
+            <!-- Products will be injected here -->
+            {% for product in products %}
+                <div class="product-card scroll-reveal">
+                    <div class="product-image-container aspect-4-5 bg-rose-50 shadow-sm relative group">
+                        <img src="{{ product.image.url }}" class="product-img" alt="{{ product.name }}">
+                        {% if product.is_new %}
+                            <div class="new-badge">
+                                <span class="new-badge-text">New In</span>
+                            </div>
+                        {% endif %}
+                        <div class="product-overlay">
+                            <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
+                        </div>
+                        <div class="added-flash" id="flash-{{ product.id }}">
+                            <i class="fa-solid fa-check text-white text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">{{ product.category }}</span>
+                        <h3 class="product-title-large">{{ product.name }}</h3>
+                        <p class="product-price">₹{{ product.price }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main> {% endcomment %}
+
+
+
+line 68: scroll-reveal block (inside class)
+line 69: font-heading scroll-reveal (inside class)
+line 70: scroll-reveal (inside class)
