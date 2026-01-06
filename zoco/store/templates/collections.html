@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Collections | ZOCO - Premium Innerwear</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@500;700&display=swap"
@@ -32,9 +33,9 @@
             </button>
         </div>
 
-        <a href="index.html" class="nav-logo-container group">
+        <a href="{% url 'home' %}" class="nav-logo-container group">
             <div class="nav-logo-wrapper">
-                <img src="assets/zoco-logo-updated.png" alt="ZOCO Logo" class="nav-logo-img">
+                <img src="{% static 'assets/zoco-logo-updated.png' %}" alt="ZOCO Logo" class="nav-logo-img">
             </div>
         </a>
 
@@ -48,15 +49,15 @@
 
     <!-- Navigation Links -->
     <div class="nav-links-bar">
-        <a href="index.html" class="nav-link">
+        <a href="{% url 'home' %}" class="nav-link">
             New Arrivals
             <span class="nav-link-underline"></span>
         </a>
-        <a href="collections.html" class="nav-link" style="color: var(--color-rosegold);">
+        <a href="{% url 'collections' %}" class="nav-link">
             Collections
-            <span class="nav-link-underline" style="width: 100%;"></span>
+            <span class="nav-link-underline"></span>
         </a>
-        <a href="story.html" class="nav-link">
+        <a href="{% url 'story' %}" class="nav-link">
             Our Story
             <span class="nav-link-underline"></span>
         </a>
@@ -76,6 +77,29 @@
     <main class="section-container" style="padding: 5rem 2rem;">
         <div id="productGrid" class="collections-grid">
             <!-- Products will be injected here -->
+            {% for product in products %}
+                <div class="product-card scroll-reveal">
+                    <div class="product-image-container aspect-4-5 bg-rose-50 shadow-sm relative group">
+                        <img src="{% static 'assets/product.image.url' %}" class="product-img" alt="product.name">
+                        {% if product.is_new %}
+                            <div class="new-badge">
+                                <span class="new-badge-text">New In</span>
+                            </div>
+                        {% endif %}
+                        <div class="product-overlay">
+                            <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
+                        </div>
+                        <div class="added-flash" id="flash-{{ product.id }}">
+                            <i class="fa-solid fa-check text-white text-4xl"></i>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <span class="product-category">{{ product.category }}</span>
+                        <h3 class="product-title-large">{{ product.name }}</h3>
+                        <p class="product-price">₹{{ product.price }}</p>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
     </main>
 
@@ -159,10 +183,10 @@
     </div>
 
     <!-- Scripts -->
-    <script src="js/products.js"></script>
-    <script src="js/script.js"></script>
+    <script src="{% static 'js/products.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
     <script>
-        function renderProducts() {
+        {% comment %} function renderProducts() {
             const grid = document.getElementById('productGrid');
             if (!grid) return;
 
@@ -191,7 +215,7 @@
             }, 100);
         }
 
-        window.onload = renderProducts;
+        window.onload = renderProducts; {% endcomment %}
     </script>
 </body>
 
