@@ -193,11 +193,11 @@
 
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
-                                    <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Wardrobe</button>
+                                    <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
                                 </div>
 
                                 <!-- Success Flash -->
-                                <div class="added-flash" id="flash-${p.id}">
+                                <div class="added-flash" id="flash-{{ product.id }}">
                                     <i class="fa-solid fa-check text-white text-4xl"></i>
                                 </div>
                             </div>
@@ -339,7 +339,7 @@
                         style="color: var(--color-gray-400); font-size: 0.875rem; max-width: 250px; margin: 0 auto; font-style: italic;">
                         "True elegance starts with the right essentials. Discover yours today."</p>
                 </div>
-                <a href="collections.html" class="btn-primary"
+                <a href="{% url 'collections' %}" class="btn-primary"
                     style="display: block; width: auto; padding: 1rem 2.5rem;">Explore Arrivals</a>
             </div>
 
@@ -405,7 +405,20 @@
     </div>
 
     <!-- Scripts -->
-    <script src="{% static 'js/products.js' %}"></script>
+    <script>
+        const products = [
+            {% for product in products %}
+            {
+                id: {{ product.id }},
+                name: "{{ product.name|escapejs }}",
+                price: {{ product.price }},
+                img: "{{ product.image.url }}",
+                category: "{{ product.category|escapejs }}",
+                isNew: {% if product.is_new %}true{% else %}false{% endif %}
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ];
+    </script>
     <script src="{% static 'js/script.js' %}"></script>
     <script>
         // Scroll Reveal

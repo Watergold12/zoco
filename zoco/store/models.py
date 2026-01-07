@@ -24,6 +24,7 @@ class customer(models.Model):
 
 # Product's model
 class product(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     price = models.DecimalField(default=0, max_digits=10, decimal_places=2)
     category = models.ForeignKey(category, on_delete=models.CASCADE, default=1)
