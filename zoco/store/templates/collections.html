@@ -79,16 +79,16 @@
         <div class="section-container">
             <div id="newArrivalsGrid" class="grid-products">
                 {% for product in products %}
-                    {% if product.is_new %}
+                    
                         <div class="product-card scroll-reveal hover-lift" style="transition-delay: ${index * 100}ms;">
                             <div class="product-image-container aspect-square bg-white shadow-sm">
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
-                                
-                                <!-- New Badge -->
-                                <div class="new-badge">
-                                    <span class="new-badge-text">New In</span>
-                                </div>
-
+                                {% if product.is_new %}
+                                    <!-- New Badge -->
+                                    <div class="new-badge">
+                                        <span class="new-badge-text">New In</span>
+                                    </div>
+                                {% endif %}
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
                                     <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
@@ -104,7 +104,6 @@
                                 <p class="product-price">₹{{ product.price }}</p>
                             </div>
                         </div>
-                    {% endif %}
                 {% endfor %}
                  
             </div>
