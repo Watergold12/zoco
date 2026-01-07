@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Collections | ZOCO - Premium Innerwear</title>
+    <title>ZOCO | Zone of Comfort - Premium Innerwear</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link
@@ -22,6 +22,8 @@
                 Orders | Cash on Delivery Available</span>
             <span class="announcement-text">Free Express Shipping on All Prepaid
                 Orders | Cash on Delivery Available</span>
+            <span class="announcement-text">Free Express Shipping on All Prepaid
+                Orders | Cash on Delivery Available</span>
         </div>
     </div>
 
@@ -33,7 +35,7 @@
             </button>
         </div>
 
-        <a href="{% url 'home' %}" class="nav-logo-container group">
+        <a href="index.html" class="nav-logo-container group">
             <div class="nav-logo-wrapper">
                 <img src="{% static 'assets/zoco-logo-updated.png' %}" alt="ZOCO Logo" class="nav-logo-img">
             </div>
@@ -42,7 +44,7 @@
         <div class="flex items-center space-x-8">
             <button onclick="toggleCart()" class="nav-icon-btn cart-icon-wrapper">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span id="cartBadgeCount" class="cart-count">0</span>
+                <span class="cart-count">0</span>
             </button>
         </div>
     </nav>
@@ -62,7 +64,7 @@
             <span class="nav-link-underline"></span>
         </a>
     </div>
-    
+
     <header style="padding: 5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
         <div class="section-container" style="padding: 0 2rem; text-align: center;">
             <span class="product-category" style="margin-bottom: 1rem;">Seasonal Edit 2026</span>
@@ -72,27 +74,94 @@
         </div>
     </header>
 
-    <div class="section-container-1">
-        <div class="grid">
-            {% for product in products %}
-                <div class="product-card">
+    <!-- Featured Collection Grid -->
+    <section id="new-arrivals" class="new-arrivals-section">
+        <div class="section-container">
+            <div id="newArrivalsGrid" class="grid-products">
+                {% for product in products %}
                     {% if product.is_new %}
-                        <span class="new-badge">NEW IN</span>
-                    {% endif %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-                    <h3 class="product-name">{{ product.name }}</h3>
-                    <p class="product-price">{{ product.price }}</p>
-                    <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
+                        <div class="product-card scroll-reveal hover-lift" style="transition-delay: ${index * 100}ms;">
+                            <div class="product-image-container aspect-square bg-white shadow-sm">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+                                
+                                <!-- New Badge -->
+                                <div class="new-badge">
+                                    <span class="new-badge-text">New In</span>
+                                </div>
 
-    <!-- Do not change anything below -->
-    <!-- Cart Overlay & Drawer -->
+                                <!-- Overlay Actions -->
+                                <div class="product-overlay">
+                                    <button class="add-cart-btn" onclick="addToCart(${p.id})">Add to Wardrobe</button>
+                                </div>
+
+                                <!-- Success Flash -->
+                                <div class="added-flash" id="flash-${p.id}">
+                                    <i class="fa-solid fa-check text-white text-4xl"></i>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <p class="product-price">₹{{ product.price }}</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                 
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <div class="brand-row">
+                    <img src="{% static 'assets/zoco-logo-updated.png' %}" alt="ZOCO Logo" style="height: 2.5rem; width: auto;">
+                    <span class="font-heading"
+                        style="font-size: 1.875rem; font-weight: bold; color: var(--color-midnight);">ZOCO</span>
+                </div>
+                <p class="footer-links" style="color: var(--color-gray-400); line-height: 1.6;">Redefining luxury
+                    through the lens of
+                    comfort. Every piece is a promise of quality, style, and grace.</p>
+            </div>
+            <div>
+                <h4 class="footer-heading">Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Order Tracking</a></li>
+                    <li><a href="#">Returns & Exchanges</a></li>
+                    <li><a href="#">Sizing Guide</a></li>
+                    <li><a href="#">Shipping Policy</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="footer-heading">Social</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#"><i class="fa-brands fa-pinterest"></i></a>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2026, ZOCO | Zone of Comfort. All Rights Reserved.</span>
+            <div class="social-links" style="font-size: 1.25rem;">
+                <i class="fa-brands fa-cc-visa"></i>
+                <i class="fa-brands fa-cc-mastercard"></i>
+                <i class="fa-brands fa-cc-apple-pay"></i>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Bubble -->
+    <a href="#" class="whatsapp-bubble">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Cart Sidebar -->
     <div id="cartOverlay" onclick="toggleCart()" class="overlay-bg"></div>
     <div id="cartDrawer" class="drawer closed custom-scrollbar">
 
+        <!-- Premium Cart Header -->
         <div
             style="padding: 3rem 2.5rem; border-bottom: 1px solid var(--color-rose-50); display: flex; align-items: center; justify-content: space-between;">
             <div>
@@ -108,43 +177,62 @@
             </button>
         </div>
 
+        <!-- Cart Items Container (Scrollable) -->
         <div id="cartItemsContainer" style="flex-grow: 1; overflow-y: auto; padding: 2rem 2.5rem;"
             class="custom-scrollbar">
+            <!-- Empty State -->
             <div id="emptyCart"
                 style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 2rem;">
-                <div
-                    style="width: 6rem; height: 6rem; background-color: rgba(255, 241, 242, 0.5); border-radius: 9999px; display: flex; align-items: center; justify-content: center;">
-                    <i class="fa-solid fa-bag-shopping"
-                        style="font-size: 1.875rem; color: rgba(183, 110, 121, 0.3);"></i>
+                <div style="position: relative;">
+                    <div
+                        style="width: 8rem; height: 8rem; background-color: rgba(255, 241, 242, 0.5); border-radius: 9999px; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-bag-shopping"
+                            style="font-size: 2.25rem; color: rgba(183, 110, 121, 0.3);"></i>
+                    </div>
                 </div>
-                <p style="color: var(--color-gray-400); font-style: italic; font-size: 0.875rem;">"Your personal
-                    collection is empty."</p>
+                <div>
+                    <h3 class="font-heading"
+                        style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.75rem; color: var(--color-midnight);">
+                        The bag is currently empty</h3>
+                    <p
+                        style="color: var(--color-gray-400); font-size: 0.875rem; max-width: 250px; margin: 0 auto; font-style: italic;">
+                        "True elegance starts with the right essentials. Discover yours today."</p>
+                </div>
+                <a href="{% url 'collections' %}" class="btn-primary"
+                    style="display: block; width: auto; padding: 1rem 2.5rem;">Explore Arrivals</a>
             </div>
-            <div id="cartList" class="hidden" style="display: flex; flex-direction: column; gap: 2rem;"></div>
+
+            <!-- Cart Items List (Dynamically populated) -->
+            <div id="cartList" class="hidden" style="display: flex; flex-direction: column; gap: 2rem;">
+                <!-- Items will appear here -->
+            </div>
         </div>
 
+        <!-- Cart Footer -->
         <div id="cartFooter" class="hidden"
             style="padding: 2.5rem; background-color: rgba(255, 249, 248, 0.5); border-top: 1px solid var(--color-rose-100);">
             <div style="margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.875rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span
-                        style="color: var(--color-gray-500); font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; font-size: 10px;">Estimated
-                        Total</span>
-                    <span id="cartTotalDisplay" class="font-heading"
-                        style="font-size: 1.5rem; font-weight: bold; color: var(--color-midnight);">₹0.00</span>
+                        style="color: var(--color-gray-500); font-size: 0.75rem; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase;">Subtotal</span>
+                    <span id="cartSubtotal" class="font-heading"
+                        style="font-size: 1.25rem; font-weight: bold; color: var(--color-midnight);">₹0.00</span>
+                </div>
+                <div
+                    style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-deepgreen);">
+                    <span>Shipping</span>
+                    <span
+                        style="background-color: rgba(45, 90, 39, 0.1); padding: 0.25rem 0.5rem; border-radius: 0.25rem;">Complimentary</span>
+                </div>
+                <div
+                    style="padding-top: 1rem; border-top: 1px solid var(--color-rose-100); display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: var(--color-midnight); font-weight: bold;">Total</span>
+                    <span id="cartTotal" class="font-heading"
+                        style="font-size: 1.5rem; font-weight: bold; color: var(--color-rosegold);">₹0.00</span>
                 </div>
             </div>
-            <button class="btn-primary">
-                Complete Selection
-            </button>
+            <button class="btn-primary">Checkout Securely</button>
         </div>
-    </div>
-
-    <!-- Success Toast -->
-    <div id="successToast" class="toast">
-        <i class="fa-solid fa-check text-rosegold"></i>
-        <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: bold;">Added to
-            Wardrobe</span>
     </div>
 
     <!-- Search Overlay -->
@@ -168,9 +256,26 @@
         </div>
     </div>
 
+    <!-- Success Toast (Shared) -->
+    <div id="successToast" class="toast">
+        <i class="fa-solid fa-check text-rosegold"></i>
+        <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: bold;">Added to
+            Wardrobe</span>
+    </div>
+
     <!-- Scripts -->
     <script src="{% static 'js/products.js' %}"></script>
     <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        // Scroll Reveal
+        const observerOptions = { threshold: 0.15 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+        document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
+    </script>
 </body>
 
 </html>
