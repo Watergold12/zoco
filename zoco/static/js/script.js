@@ -7,23 +7,29 @@ const formatPrice = (price) => `₹${price.toLocaleString()}`;
 // --- CART FUNCTIONS ---
 function saveCart() {
     localStorage.setItem('zoco_cart', JSON.stringify(cart));
+    console.log('Cart saved:', cart);
     updateCartUI();
 }
 
 function addToCart(id) {
+    console.log('Adding to cart, ID:', id);
+    
     const product = products.find(p => p.id === id);
-    if (!product) return;
+    if (!product) {
+        console.error('Product not found:', id);
+        return;
+    }
 
     const existing = cart.find(item => item.id === id);
     if (existing) {
         existing.qty++;
+        console.log('Increased quantity:', existing);
     } else {
         cart.push({ ...product, qty: 1 });
+        console.log('Added new item:', product);
     }
 
     saveCart();
-
-    // UI Feedback
     showToast();
 
     // Open cart automatically
@@ -34,14 +40,26 @@ function addToCart(id) {
 }
 
 function removeFromCart(id) {
+    console.log('Removing item ID:', id);
+    console.log('Cart before:', cart.length, 'items');
+    
+    // Filter out the item
     cart = cart.filter(item => item.id !== id);
+    
+    console.log('Cart after:', cart.length, 'items');
+    
+    // Save and update
     saveCart();
 }
 
 function changeQty(id, delta) {
+    console.log('Changing qty for ID:', id, 'Delta:', delta);
+    
     const item = cart.find(i => i.id === id);
     if (item) {
         item.qty += delta;
+        console.log('New quantity:', item.qty);
+        
         if (item.qty <= 0) {
             removeFromCart(id);
         } else {
@@ -63,38 +81,70 @@ function updateCartUI() {
     const list = document.getElementById('cartList');
     const empty = document.getElementById('emptyCart');
     const footer = document.getElementById('cartFooter');
-    const badge = document.getElementById('cartBadgeCount');
+    const badge = document.querySelector('.cart-count');
     const totalDisplay = document.getElementById('cartTotalDisplay') || document.getElementById('cartTotal');
     const subtotalDisplay = document.getElementById('cartSubtotal');
 
+    console.log('Updating cart UI. Items in cart:', cart.length);
+
     // Update Badge
+    const cartCount = getCartCount();
     if (badge) {
-        badge.innerText = getCartCount();
-        if (getCartCount() > 0) {
-            badge.classList.remove('hidden');
-            badge.classList.add('flex');
-        } else {
-            // Optional: hide badge if 0
-            // badge.classList.add('hidden'); // Uncomment if you want to hide it
-        }
+        badge.innerText = cartCount;
+        badge.style.display = 'flex';
     }
 
-    // Update Cart Content
-    if (!list) return;
+    // Check if elements exist
+    if (!list) {
+        console.error('cartList element not found!');
+        return;
+    }
 
+    // Cart is empty
     if (cart.length === 0) {
+        console.log('Cart empty - showing empty state');
+        
+        // Hide cart list
+        list.style.display = 'none';
         list.classList.add('hidden');
-        if (empty) empty.classList.remove('hidden');
-        if (footer) footer.classList.add('hidden');
-    } else {
+        
+        // Show empty message
+        if (empty) {
+            empty.style.display = 'flex';
+            empty.classList.remove('hidden');
+        }
+        
+        // Hide footer
+        if (footer) {
+            footer.style.display = 'none';
+            footer.classList.add('hidden');
+        }
+    } 
+    // Cart has items
+    else {
+        console.log('Cart has items - showing cart list');
+        
+        // Show cart list
+        list.style.display = 'flex';
         list.classList.remove('hidden');
-        if (empty) empty.classList.add('hidden');
-        if (footer) footer.classList.remove('hidden');
+        
+        // Hide empty message
+        if (empty) {
+            empty.style.display = 'none';
+            empty.classList.add('hidden');
+        }
+        
+        // Show footer
+        if (footer) {
+            footer.style.display = 'block';
+            footer.classList.remove('hidden');
+        }
 
+        // Build cart items HTML
         list.innerHTML = cart.map(item => `
             <div class="cart-item">
                 <div class="cart-item-img-wrapper">
-                    <img src="${item.img}" class="cart-item-img">
+                    <img src="${item.img}" class="cart-item-img" alt="${item.name}">
                 </div>
                 <div class="cart-item-details">
                     <h4 class="cart-item-title">${item.name}</h4>
@@ -114,9 +164,12 @@ function updateCartUI() {
             </div>
         `).join('');
 
+        // Update totals
         const total = getCartTotal();
         if (totalDisplay) totalDisplay.innerText = formatPrice(total);
         if (subtotalDisplay) subtotalDisplay.innerText = formatPrice(total);
+        
+        console.log('Total:', formatPrice(total));
     }
 }
 
@@ -208,6 +261,9 @@ function showToast() {
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded - Initializing cart');
+    console.log('Cart from localStorage:', cart);
+    
     updateCartUI();
 
     // Search Listener
@@ -215,4 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (searchInput) {
         searchInput.addEventListener('input', handleSearch);
     }
+    
+    console.log('Cart initialized with', cart.length, 'items');
 });
