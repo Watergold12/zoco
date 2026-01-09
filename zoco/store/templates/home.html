@@ -35,7 +35,7 @@
             </button>
         </div>
 
-        <a href="index.html" class="nav-logo-container group">
+        <a href="{% url 'home' %}" class="nav-logo-container group">
             <div class="nav-logo-wrapper">
                 <img src="{% static 'assets/zoco-logo-updated.png' %}" alt="ZOCO Logo" class="nav-logo-img">
             </div>
@@ -76,7 +76,7 @@
                 <p class="hero-pretitle">Premium Essentials</p>
                 <h1 class="hero-title font-heading">Elevated Comfort</h1>
                 <p class="hero-desc">"Reimagining your daily wear with luxury fabrics and timeless design."</p>
-                <a href="collections.html" class="btn-primary">Shop The Drop</a>
+                <a href="{% url 'collections' %}" class="btn-primary">Shop The Drop</a>
             </div>
         </div>
 
@@ -102,7 +102,7 @@
                     <img src="{% static 'assets/zoco-split-1-0.jpg' %}" alt="ZOCO Bras" class="category-img">
                     <div class="category-overlay"></div>
                     <div class="category-btn-container">
-                        <a href="collections.html" class="category-btn">View Collection</a>
+                        <a href="{% url 'collections' %}" class="category-btn">View Collection</a>
                     </div>
                 </div>
                 <h3 class="category-title">Lace Intimates</h3>
@@ -118,7 +118,7 @@
                     <img src="{% static 'assets/zoco-split-1-1.jpg' %}" alt="ZOCO Sets" class="category-img">
                     <div class="category-overlay"></div>
                     <div class="category-btn-container">
-                        <a href="collections.html" class="category-btn">Explore Sets</a>
+                        <a href="{% url 'collections' %}" class="category-btn">Explore Sets</a>
                     </div>
                 </div>
                 <h3 class="category-title">Signature Sets</h3>
@@ -134,7 +134,7 @@
                     <img src="{% static 'assets/zoco-split-2-0.png' %}" alt="ZOCO Premium" class="category-img">
                     <div class="category-overlay"></div>
                     <div class="category-btn-container">
-                        <a href="collections.html" class="category-btn">Shop Premium</a>
+                        <a href="{% url 'collections' %}" class="category-btn">Shop Premium</a>
                     </div>
                 </div>
                 <h3 class="category-title">Silk Series</h3>

@@ -5,12 +5,12 @@ from .models import product, category
 def home(request):
     products = product.objects.all()
     categories = category.objects.all()
-    return render(request, 'home.html', {'products': products})
+    return render(request, 'home.html', {'products': products, 'categories': categories})
 
 def collections(request):
     products = product.objects.all()
     categories = category.objects.all()
-    return render(request, 'collections.html', {'products': products})
+    return render(request, 'collections.html', {'products': products, 'categories': categories})
 
 def story(request):
     return render(request, 'story.html')
