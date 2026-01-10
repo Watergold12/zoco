@@ -1,6 +1,8 @@
 from django.db import models
 import datetime
 
+from django.forms import ValidationError
+
 # Product's category model
 class category(models.Model):
     name = models.CharField(max_length=50)
@@ -32,7 +34,25 @@ class product(models.Model):
     stock_quantity = models.IntegerField()
     image = models.ImageField(upload_to='uploads/products/')
     is_new = models.BooleanField(default=False)
-    is_available = models.BooleanField(default=True)
+    is_available = models.BooleanField(default=False)
+    is_offer = models.BooleanField(default=False)
+    offer_price = models.DecimalField(max_digits=10, decimal_places=2, default=0, null=True, blank=True)
+
+    def clean(self):
+        # 1. Check if offer is enabled but price is missing
+        if self.is_offer and self.offer_price is None:
+            raise ValidationError({
+                'offer_price': 'You must provide an offer price if "is_offer" is checked.'
+            })
+        
+        # 2. Optional: Clear offer_price if is_offer is False
+        if not self.is_offer and self.offer_price is not None:
+            # You can either raise an error or just null it out
+            self.offer_price = None 
+
+    def save(self, *args, **kwargs):
+        self.full_clean() # This ensures clean() is called before saving
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.name

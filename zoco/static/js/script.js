@@ -233,7 +233,7 @@ function handleSearch(e) {
         `;
     } else {
         resultsContainer.innerHTML = filtered.map(p => `
-            <div class="search-result-item" onclick="window.location.href='collections.html'">
+            <div class="search-result-item" onclick="window.location.href='{% url 'collections' %}'">
                 <div class="search-result-img-wrapper">
                     <img src="${p.img}" class="search-result-img">
                 </div>

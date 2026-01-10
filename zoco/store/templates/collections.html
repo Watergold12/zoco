@@ -79,7 +79,33 @@
         <div class="section-container">
             <div id="newArrivalsGrid" class="grid-products">
                 {% for product in products %}
-                    
+                    {% if product.is_offer %}
+                        <div class="product-card scroll-reveal hover-lift" style="transition-delay: ${index * 100}ms;">
+                            <div class="product-image-container aspect-square bg-white shadow-sm">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+                                {% if product.is_new %}
+                                    <!-- New Badge -->
+                                    <div class="new-badge">
+                                        <span class="new-badge-text">New In</span>
+                                    </div>
+                                {% endif %}
+                                <!-- Overlay Actions -->
+                                <div class="product-overlay">
+                                    <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
+                                </div>
+
+                                <!-- Success Flash -->
+                                <div class="added-flash" id="flash-{{ product.id }}">
+                                    <i class="fa-solid fa-check text-white text-4xl"></i>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <h3 class="product-title">{{ product.name }}</h3>
+                                <strike class="product-price">₹{{ product.price }}</strike>
+                                <p class="product-price">₹{{ product.offer_price }}</p>
+                            </div>
+                        </div>
+                    {% else %}
                         <div class="product-card scroll-reveal hover-lift" style="transition-delay: ${index * 100}ms;">
                             <div class="product-image-container aspect-square bg-white shadow-sm">
                                 <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
@@ -104,6 +130,7 @@
                                 <p class="product-price">₹{{ product.price }}</p>
                             </div>
                         </div>
+                    {% endif %}
                 {% endfor %}
                  
             </div>
