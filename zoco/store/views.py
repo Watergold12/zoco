@@ -14,3 +14,13 @@ def collections(request):
 
 def story(request):
     return render(request, 'story.html')
+
+def payment(request):
+    products = product.objects.all()
+    categories = category.objects.all()
+    return render(request, 'payment.html', {'products': products, 'categories': categories})
+
+def checkout(request):
+    products = product.objects.all()
+    categories = category.objects.all()
+    return render(request, 'checkout.html', {'products': products, 'categories': categories})
