@@ -7,4 +7,6 @@ urlpatterns = [
     path('story/', views.story, name='story'),
     path('payment/', views.payment, name='payment'),
     path('checkout/', views.checkout, name='checkout'),
+    path('login/', views.login_user, name='login'),
+    path('logout/', views.logout_user, name='logout'),
 ]

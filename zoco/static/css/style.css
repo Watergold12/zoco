@@ -283,6 +283,7 @@ body {
 
 .cart-icon-wrapper {
     position: relative;
+    margin-left: 1.5rem;
 }
 
 .cart-count {
@@ -1534,3 +1535,33 @@ body {
     padding: 18px;
 }
 
+.login-btn {
+    background: white;
+    color: #2C3E50;
+    padding: 1.25rem 2rem;
+    font-size: 10px;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    padding: 0.85rem 1.75rem;
+    border-radius: 0.4rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+}
+
+.login-btn:hover {
+    background: #B76E79;
+    color: white;
+}
+
+.login-wrapper {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* This pushes it to the right */
+    gap: 1rem;
+}

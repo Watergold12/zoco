@@ -41,6 +41,10 @@
             </div>
         </a>
 
+        <div class="login-wrapper">
+            <a href="{% url 'login' %}" class="login-btn">LOGIN</a>
+        </div>
+
         <div class="flex items-center space-x-8">
             <button onclick="toggleCart()" class="nav-icon-btn cart-icon-wrapper">
                 <i class="fa-solid fa-bag-shopping"></i>
@@ -51,7 +55,7 @@
 
     <!-- Navigation Links -->
     <div class="nav-links-bar">
-        <a href="#new-arrivals" class="nav-link">
+        <a href="{% url 'home' %}" class="nav-link">
             New Arrivals
             <span class="nav-link-underline"></span>
         </a>
