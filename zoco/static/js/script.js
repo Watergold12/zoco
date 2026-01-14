@@ -39,6 +39,19 @@ function addToCart(id) {
     }
 }
 
+function login_Toast() {
+    const toast = document.getElementById('loginToast');
+    if (!toast) return;
+    toast.classList.add('active');
+    setTimeout(() => {
+        toast.classList.remove('active');
+    }, 2000);
+}
+
+function loginToast() {
+    login_Toast();
+}
+
 function removeFromCart(id) {
     console.log('Removing item ID:', id);
     console.log('Cart before:', cart.length, 'items');
@@ -270,6 +283,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     if (searchInput) {
         searchInput.addEventListener('input', handleSearch);
+    }
+
+    const loginToast = document.getElementById('loginToast');
+    if (loginToast) {
+        setTimeout(() => {
+            loginToast.classList.add('active');
+        }, 100);
+        setTimeout(() => {
+            loginToast.classList.remove('active');
+        }, 3000);
     }
     
     console.log('Cart initialized with', cart.length, 'items');

@@ -41,9 +41,15 @@
             </div>
         </a>
 
-        <div class="login-wrapper">
-            <a href="{% url 'login' %}" class="login-btn">LOGIN</a>
-        </div>
+        {% if user.is_authenticated %}
+            <div class="login-wrapper">
+                <a href="{% url 'logout' %}" class="login-btn">LOGOUT</a>
+            </div>
+        {% else %}
+            <div class="login-wrapper">
+                <a href="{% url 'login' %}" class="login-btn">LOGIN</a>
+            </div>
+        {% endif %}
 
         <div class="flex items-center space-x-8">
             <button onclick="toggleCart()" class="nav-icon-btn cart-icon-wrapper">
@@ -224,6 +230,15 @@
         <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: bold;">Added to
             Wardrobe</span>
     </div>
+
+    {% if messages %}
+        <div id="loginToast" class="toast" bis_skin_checked="1">
+            {% for message in messages %}
+                <i class="fa-solid fa-check text-rosegold"></i>
+                <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: bold;">{{ message }}</span>
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <!-- Scripts -->
     <script>

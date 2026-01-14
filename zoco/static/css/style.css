@@ -1565,3 +1565,19 @@ body {
     margin-left: auto; /* This pushes it to the right */
     gap: 1rem;
 }
+
+.login-butn{
+    padding: 0.75rem 1.5rem; 
+    background-color: var(--color-midnight); 
+    color: white; 
+    border: none; 
+    border-radius: 4px; 
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-butn:hover {
+    background: #B76E79;
+    color: white;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
