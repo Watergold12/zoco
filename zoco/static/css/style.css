@@ -463,7 +463,7 @@ body {
 .section-container {
     max-width: 80rem;
     margin: 0 auto;
-    padding: 8rem 2rem;
+    padding: 2rem;
 }
 
 .category-header {
@@ -766,7 +766,7 @@ body {
 
 /* Featured Collection */
 .new-arrivals-section {
-    padding: 8rem 0;
+    padding: 3rem 0;
     background-color: var(--color-softpink);
 }
 
@@ -796,7 +796,7 @@ body {
 /* Final Gallery */
 .gallery-section {
     padding: 8rem 0;
-    background-color: var(--color-softpink);
+    background-color: white;
 }
 
 .gallery-grid {
@@ -1579,5 +1579,21 @@ body {
 .login-butn:hover {
     background: #B76E79;
     color: white;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.register-wrapper {
+    margin-top: 1.5rem; 
+    text-align: center;
+}
+
+.register-btn {
+    color: var(--color-midnight); 
+    font-weight: bold; 
+    text-decoration: none;
+}
+
+.register-btn:hover {
+    color: var(--color-rosegold);
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
