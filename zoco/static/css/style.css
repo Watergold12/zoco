@@ -1807,3 +1807,24 @@ body {
     top: 0.5rem;
     max-width: 24rem;
 }
+
+.size-guide-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.size-guide-table th,
+.size-guide-table td {
+    border: 1px solid var(--color-rose-100);
+    padding: 1rem;
+    text-align: center;
+}
+
+.size-guide-table th {
+    background-color: var(--color-rose-50);
+    color: var(--color-midnight);
+    font-family: var(--font-heading);
+    font-weight: bold;
+}
