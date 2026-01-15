@@ -2,31 +2,58 @@
 {% load static %}
 {% block content %}
     <!-- Header Section -->
-    <header style="padding: 5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
+    {% comment %} <header style="padding: 5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
         <div class="section-container" style="padding: 0 2rem; text-align: center;">
             <h1 class="section-title font-heading" style="font-size: 3.75rem;">Register in ZOCO</h1>
         </div>
-    </header>
+    </header> {% endcomment %}
 
     <section class="hero-section">
         <img src="{% static 'assets/zoco-hero.png' %}" alt="ZOCO Hero" class="hero-bg">
         <div class="hero-overlay"></div>
 
         <!-- Redesigned Hero Box: Smaller and moved to corner -->
-        <div class="hero-content">
+        <div class="hero-content-1">
             <div class="glass hero-box scroll-reveal visible">
-                <h2 class="hero-title font-heading" style="margin-bottom: 2rem;">Member Login</h2>
-                <form method="post" action="{% url 'login' %}" class="login-form" style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <h2 class="hero-title font-heading" style="margin-bottom: 2rem;">User Register</h2>
+                <form method="post" action="{% url 'register' %}">
                     {% csrf_token %}
-                    <div class="form-group">
-                        <label for="username" class="form-label font-heading" style="font-weight: bold; margin-bottom: 0.5rem;">Username:</label>
-                        <input type="text" name="username" placeholder="Email / Phone number" class="form-input" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;">
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Username</label>
+                        {{ form.username }}
                     </div>
-                    <div class="form-group">
-                        <label for="password" class="form-label font-heading" style="font-weight: bold; margin-bottom: 0.5rem;">Password:</label>
-                        <input type="password" name="password" placeholder="Password" class="form-input" required style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 4px;">
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">First Name</label>
+                        {{ form.first_name }}
                     </div>
-                    <button type="submit" class="login-butn">LOGIN</button>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Email</label>
+                        {{ form.email }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Password</label>
+                        {{ form.password1 }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Confirm Password</label>
+                        {{ form.password2 }}
+                    </div>
+                    <br>
+                    <button type="submit" class="login-butn">REGISTER</button>
+                    {% if form.errors %}
+                        <div class="form-errors">
+                            {{ form.errors }}
+                        </div>
+                    {% endif %}
                 </form>
             </div>
         </div>

@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="product-info">
-                                <h3 class="product-title">{{ product.name }}</h3>
+                                <a class="product-title" href="{% url 'product' product.id %}">{{ product.name }}</a>
                                 <strike class="product-price">₹{{ product.price }}</strike>
                                 <p class="product-price">₹{{ product.offer_price }}</p>
                             </div>
@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="product-info">
-                                <h3 class="product-title">{{ product.name }}</h3>
+                                <a class="product-title" href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
                                 <p class="product-price">₹{{ product.price }}</p>
                             </div>
                         </div>

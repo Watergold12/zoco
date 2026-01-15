@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <main class="product-detail-container" id="productDetailContainer">
+        <div class="detail-image-wrapper scroll-reveal visible">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-image">
+        </div>
+
+        <div class="detail-info scroll-reveal visible">
+            <span class="detail-category">{{ product.category.name }}</span>
+
+            <h1 class="detail-title">{{ product.name }}</h1>
+
+            <p class="detail-price">
+                ₹{{ product.price|floatformat:0 }}
+            </p>
+
+            <p class="detail-description">
+                {{ product.description|default:"Designed for elegance and comfort." }}
+            </p>
+
+            <div class="size-selector">
+                <span class="size-label">Select Size</span>
+                <div class="size-options">
+                    <button class="size-btn" onclick="selectSize(this)">S</button>
+                    <button class="size-btn" onclick="selectSize(this)">M</button>
+                    <button class="size-btn" onclick="selectSize(this)">L</button>
+                    <button class="size-btn" onclick="selectSize(this)">XL</button>
+                    <button class="size-btn" onclick="selectSize(this)">XXL</button>
+                </div>
+
+                <a href="#" class="size-guide-link">
+                    <i class="fa-solid fa-ruler-horizontal" style="margin-right: 0.5rem;"></i>
+                    Size Guide
+                </a>
+            </div>
+
+            <div class="action-buttons">
+                <button class="btn-add-bag" onclick="addToCart({{ product.id }})">
+                    Add to Wardrobe
+                </button>
+                <button class="btn-wishlist">
+                    <i class="fa-regular fa-heart"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+{% endblock %}
