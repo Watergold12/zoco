@@ -28,7 +28,7 @@
                                 {% endif %}
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
-                                    <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
+                                    <button class="add-cart-btn" type="button" value="{{ product.id }}" id="add-cart">Add to Wardrobe</button>
                                 </div>
 
                                 <!-- Success Flash -->
@@ -54,7 +54,7 @@
                                 {% endif %}
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
-                                    <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
+                                    <button class="add-cart-btn" type="button" value="{{ product.id }}" id="add-cart">Add to Wardrobe</button>
                                 </div>
 
                                 <!-- Success Flash -->
@@ -73,4 +73,27 @@
             </div>
         </div>
     </section>
+
+
+<script>
+    $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'cart_add' %}',
+            data: {
+                product_id: $('#add-cart').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function(json){
+                console.log(json)
+            },
+            error: function(xhr, errmsg, err){
+
+            }
+        }); 
+    })
+</script>
 {% endblock %}
