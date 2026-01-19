@@ -272,14 +272,6 @@
 
     <script src="js/script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            if (cart.length === 0) {
-                // Redirect if empty?
-                // window.location.href = 'collections.html';
-            }
-            renderCheckoutItems();
-            updateSummary();
-        });
 
         function renderCheckoutItems() {
             const container = document.getElementById('orderSummaryList');

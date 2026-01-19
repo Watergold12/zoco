@@ -28,7 +28,9 @@
                                 {% endif %}
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
-                                    <button class="add-cart-btn" type="button" value="{{ product.id }}" id="add-cart">Add to Wardrobe</button>
+                                    <a class="add-cart-btn" href="{% url 'product_detail' product.id %}">
+                                        view product
+                                    </a>
                                 </div>
 
                                 <!-- Success Flash -->
@@ -37,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="product-info">
-                                <a class="product-title" href="{% url 'product' product.id %}">{{ product.name }}</a>
+                                <a class="product-title" href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
                                 <strike class="product-price">₹{{ product.price }}</strike>
                                 <p class="product-price">₹{{ product.offer_price }}</p>
                             </div>
@@ -54,7 +56,9 @@
                                 {% endif %}
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
-                                    <button class="add-cart-btn" type="button" value="{{ product.id }}" id="add-cart">Add to Wardrobe</button>
+                                    <a class="add-cart-btn" href="{% url 'product_detail' product.id %}">
+                                        view product
+                                    </a>
                                 </div>
 
                                 <!-- Success Flash -->
@@ -80,7 +84,7 @@
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '{% url 'cart_add' %}',
+            url: '{% url "cart_add" %}',
             data: {
                 product_id: $('#add-cart').val(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
@@ -88,7 +92,8 @@
             },
 
             success: function(json){
-                console.log(json)
+                document.getElementById("cart_quantity").textContent = json.qty;
+                showToast();
             },
             error: function(xhr, errmsg, err){
 

@@ -36,7 +36,7 @@
             </div>
 
             <div class="action-buttons">
-                <button class="btn-add-bag" onclick="addToCart({{ product.id }})">
+                <button class="btn-add-bag" type="button" value="{{ product.id }}" id="add-cart">
                     Add to Wardrobe
                 </button>
                 <button class="btn-wishlist">
@@ -45,4 +45,27 @@
             </div>
         </div>
     </main>
+
+<script>
+    $(document).on('click', '#add-cart', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_add" %}',
+            data: {
+                product_id: $('#add-cart').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+
+            success: function(json){
+                document.getElementById("cart_quantity").textContent = json.qty;
+                showToast();
+            },
+            error: function(xhr, errmsg, err){
+
+            }
+        }); 
+    })
+</script>
 {% endblock %}

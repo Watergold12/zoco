@@ -55,7 +55,7 @@
         <div class="flex items-center space-x-8">
             <a class="nav-icon-btn cart-icon-wrapper" href="{% url 'cart_summary' %}">
                 <i class="fa-solid fa-bag-shopping"></i>
-                <span class="cart-count">0</span>
+                <span class="cart-count" id="cart_quantity">{{ cart|length }}</span>
             </a>
         </div>
     </nav>
@@ -128,7 +128,7 @@
 
     <!-- Search Overlay -->
     <div id="searchOverlay" class="search-overlay">
-        <button onclick="toggleSearch()" class="search-close-btn">
+        <button class="search-close-btn">
             <i class="fa-solid fa-xmark"></i>
         </button>
         <div class="search-container">

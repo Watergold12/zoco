@@ -129,7 +129,9 @@
 
                                 <!-- Overlay Actions -->
                                 <div class="product-overlay">
-                                    <button class="add-cart-btn" onclick="addToCart({{ product.id }})">Add to Wardrobe</button>
+                                    <a href="{% url 'product_detail' product.id %}" class="add-cart-btn">
+                                        View Product
+                                    </a>
                                 </div>
 
                                 <!-- Success Flash -->
@@ -193,15 +195,16 @@
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '{% url 'cart_add' %}',
+            url: '{% url "cart_add" %}',
             data: {
                 product_id: $('#add-cart').val(),
-                csrfmiddlewaretoke: '{{ csrf_token }}',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
 
             success: function(json){
-                console.log(json)
+                document.getElementById("cart_quantity").textContent = json.qty;
+                showToast();
             },
             error: function(xhr, errmsg, err){
 
