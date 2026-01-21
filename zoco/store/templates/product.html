@@ -21,6 +21,11 @@
 
             <div class="size-selector">
                 <span class="size-label">Select Quantity</span>
+                <div class="quantity-selector">
+                    <button class="qty-btn" id="minus-btn">-</button>
+                    <span class="qty-value" id="qty-display">1</span>
+                    <button class="qty-btn" id="plus-btn">+</button>
+                </div>
 
                 <span class="size-label">Select Size</span>
                 <div class="size-options">
@@ -49,6 +54,24 @@
     </main>
 
 <script>
+    // Quantity logic
+    const minusBtn = document.getElementById('minus-btn');
+    const plusBtn = document.getElementById('plus-btn');
+    const qtyDisplay = document.getElementById('qty-display');
+    let currentQty = 1;
+
+    minusBtn.addEventListener('click', () => {
+        if (currentQty > 1) {
+            currentQty--;
+            qtyDisplay.textContent = currentQty;
+        }
+    });
+
+    plusBtn.addEventListener('click', () => {
+        currentQty++;
+        qtyDisplay.textContent = currentQty;
+    });
+
     $(document).on('click', '#add-cart', function(e){
         e.preventDefault();
         $.ajax({
@@ -56,6 +79,7 @@
             url: '{% url "cart_add" %}',
             data: {
                 product_id: $('#add-cart').val(),
+                product_qty: $('#qty-display').text(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },

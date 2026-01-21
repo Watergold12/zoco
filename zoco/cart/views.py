@@ -16,12 +16,13 @@ def cart_add(request):
     if request.POST.get('action') == 'post':
         # get stuff
         product_id = int(request.POST.get('product_id'))
+        product_qty = int(request.POST.get('product_qty'))
         
         # lookup in DB
         product = get_object_or_404(Product, id=product_id)
         
         # Save to session
-        cart.add(product=product)
+        cart.add(product=product, quantity=product_qty)
 
         # Get cart qty
         cart_quantity = cart.__len__()
@@ -29,8 +30,26 @@ def cart_add(request):
         response = JsonResponse({'qty' : cart_quantity})
         return response
 
-def cart_delete():
-    pass
+def cart_delete(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        # get stuff
+        product_id = int(request.POST.get('product_id'))
 
-def cart_update():
-    pass
+        cart.delete(product=product_id)
+        response = JsonResponse({'product':product_id})
+
+        return response
+
+def cart_update(request):
+    cart = Cart(request)
+    if request.POST.get('action') == 'post':
+        # get stuff
+        product_id = int(request.POST.get('product_id'))
+        product_qty = int(request.POST.get('product_qty'))
+
+        cart.update(product = product_id, quantity = product_qty)
+
+        response = JsonResponse({'qty': product_qty})
+        return response
+        # return redirect('cart_summary')

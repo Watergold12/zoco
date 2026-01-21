@@ -42,27 +42,33 @@
                         style="display: block; width: auto; padding: 1rem 2.5rem;">Explore Arrivals</a>
                 </div>
             {% else %}
-                <div id="cartList" class="hidden" style="display: flex; flex-direction: column; gap: 2rem;">
+                <div id="cartList" style="display: flex; flex-direction: column; gap: 2rem;">
                     <!-- Items will appear here -->
                     {% for product in cart_products %}
-                        {% comment %} {{ product }} {% endcomment %}
                         <div class="cart-item">
                             <div class="cart-item-img-wrapper">
                                 <img src="{{ product.image.url }}" class="cart-item-img">
                             </div>
                             <div class="cart-item-details">
                                 <h4 class="cart-item-title">{{ product.name }}</h4>
-                                <p class="cart-item-price">{{ product.price }}</p>
+                                <p class="cart-item-price">₹{{ product.price }}</p>
                                 
                                 <div class="cart-qty-wrapper">
                                     <div class="cart-qty-input">
-                                        <button onclick="changeQty(${item.id}, -1)" class="cart-qty-btn">-</button>
-                                        <span class="cart-qty-display">${item.qty}</span>
-                                        <button onclick="changeQty(${item.id}, 1)" class="cart-qty-btn">+</button>
+                                        <button class="cart-qty-btn qty-change" data-id="{{ product.id }}" data-action="minus">-</button>
+                                        <span class="cart-qty-display" id="qty-{{ product.id }}">
+                                            {% for key, value in cart.cart.items %}
+                                                {% if key == product.id|slugify %}
+                                                    {{ value }}
+                                                {% endif %}
+                                            {% endfor %}
+                                        </span>
+                                        <button class="cart-qty-btn qty-change" data-id="{{ product.id }}" data-action="plus">+</button>
                                     </div>
+                                    <button type="button" data-index="{{ product.id }}" class="update-cart-btn">Update</button>
                                 </div>
                             </div>
-                            <button onclick="removeFromCart(${item.id})" class="cart-remove-btn">
+                            <button type="button" data-index="{{ product.id }}" class="cart-remove-btn">
                                 <i class="fa-solid fa-trash-can"></i>
                             </button>
                         </div>
@@ -71,31 +77,98 @@
             {% endif %}
         </div>
 
-        <!-- Cart Footer -->
-        <div id="cartFooter" class="hidden"
-            style="padding: 2.5rem; background-color: rgba(255, 249, 248, 0.5); border-top: 1px solid var(--color-rose-100);">
-            <div style="margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span
-                        style="color: var(--color-gray-500); font-size: 0.75rem; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase;">Subtotal</span>
-                    <span id="cartSubtotal" class="font-heading"
-                        style="font-size: 1.25rem; font-weight: bold; color: var(--color-midnight);">₹0.00</span>
+        {% if cart_products %}
+            <!-- Cart Footer -->
+            <div id="cartFooter"
+                style="padding: 2.5rem; background-color: rgba(255, 249, 248, 0.5); border-top: 1px solid var(--color-rose-100);">
+                <div style="margin-bottom: 2rem; display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span
+                            style="color: var(--color-gray-500); font-size: 0.75rem; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase;">Subtotal</span>
+                        <span id="cartSubtotal" class="font-heading"
+                            style="font-size: 1.25rem; font-weight: bold; color: var(--color-midnight);">₹{{ cart.get_total }}</span>
+                    </div>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-deepgreen);">
+                        <span>Shipping</span>
+                        <span
+                            style="background-color: rgba(45, 90, 39, 0.1); padding: 0.25rem 0.5rem; border-radius: 0.25rem;">Complimentary</span>
+                    </div>
+                    <div
+                        style="padding-top: 1rem; border-top: 1px solid var(--color-rose-100); display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--color-midnight); font-weight: bold;">Total</span>
+                        <span id="cartTotal" class="font-heading"
+                            style="font-size: 1.5rem; font-weight: bold; color: var(--color-rosegold);">₹{{ cart.get_total }}</span>
+                    </div>
                 </div>
-                <div
-                    style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: bold; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-deepgreen);">
-                    <span>Shipping</span>
-                    <span
-                        style="background-color: rgba(45, 90, 39, 0.1); padding: 0.25rem 0.5rem; border-radius: 0.25rem;">Complimentary</span>
-                </div>
-                <div
-                    style="padding-top: 1rem; border-top: 1px solid var(--color-rose-100); display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: var(--color-midnight); font-weight: bold;">Total</span>
-                    <span id="cartTotal" class="font-heading"
-                        style="font-size: 1.5rem; font-weight: bold; color: var(--color-rosegold);">₹0.00</span>
-                </div>
+                <a href="{% url 'checkout' %}" class="btn-primary">Checkout Securely</a>
             </div>
-            <a href="{% url 'checkout' %}" class="btn-primary">Checkout Securely</a>
-        </div>
+        {% endif %}
     </div>
 </section>
+
+<script>
+    // Handle Quantity +/- buttons in the cart page
+    $(document).on('click', '.qty-change', function(e) {
+        e.preventDefault();
+        const productId = $(this).data('id');
+        const action = $(this).data('action');
+        const qtySpan = $('#qty-' + productId);
+        let currentQty = parseInt(qtySpan.text().trim());
+
+        if (action === 'plus') {
+            currentQty++;
+        } else if (action === 'minus' && currentQty > 1) {
+            currentQty--;
+        }
+        
+        qtySpan.text(currentQty);
+    });
+
+    // Handle Update Cart button
+    $(document).on('click', '.update-cart-btn', function(e){
+        e.preventDefault();
+        const productId = $(this).data('index');
+        const productQty = $('#qty-' + productId).text().trim();
+        
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_update" %}',
+            data: {
+                product_id: productId,
+                product_qty: productQty,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+                console.error(errmsg);
+            }
+        }); 
+    });
+
+    // Handle Delete Item Cart button
+    $(document).on('click', '.cart-remove-btn', function(e){
+        e.preventDefault();
+        const productId = $(this).data('index');
+        
+        $.ajax({
+            type: 'POST',
+            url: '{% url "cart_delete" %}',
+            data: {
+                product_id: productId,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post'
+            },
+            success: function(json){
+                location.reload();
+            },
+            error: function(xhr, errmsg, err){
+                console.error(errmsg);
+            }
+        }); 
+    });
+</script>
 {% endblock %}
