@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .models import Product, Category
-from .forms import SignUpForm
-
+from django.contrib.auth.models import User
+from .forms import SignUpForm, UpdateUserForm
 
 def home(request):
     products = Product.objects.all()
@@ -90,5 +90,34 @@ def register_user(request):
 
     return render(request, 'register.html', {'form': form})
 
+
 def size_guide(request):
     return render(request, 'size_guide.html')
+
+
+def category(request, tpo):
+    tpo = tpo.replace("-", " ")
+    try:
+        category = Category.objects.get(name=tpo)
+        products = Product.objects.filter(category=category)
+        return render(request, 'category.html', {'products':products, 'category':category})
+    except:
+        messages.success(request, "That category doesn't exist!!")
+        return redirect('home')
+
+
+def update_user(request):
+    if request.user.is_authenticated:
+        current_user = User.objects.get(id=request.user.id)
+        user_form = UpdateUserForm(request.POST or None, instance=current_user)
+
+        if user_form.is_valid():
+            user_form.save()
+
+            login(request, current_user)
+            messages.success(request, "User Profile has been updated!!")
+            return redirect('home')
+        
+        return render(request, 'update_user.html', {'user_form':user_form})
+    else:
+        messages.success(request, "Please login to update your profile!!")

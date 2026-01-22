@@ -612,6 +612,7 @@ body {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--color-rosegold);
+    text-decoration: none;
 }
 
 .arrow-icon {

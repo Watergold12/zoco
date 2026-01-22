@@ -38,14 +38,14 @@
                     <img src="{% static 'assets/zoco-split-1-0.jpg' %}" alt="ZOCO Bras" class="category-img">
                     <div class="category-overlay"></div>
                     <div class="category-btn-container">
-                        <a href="{% url 'collections' %}" class="category-btn">View Collection</a>
+                        <a href="{% url 'category' 'Panties' %}" class="category-btn">View Collection</a>
                     </div>
                 </div>
-                <h3 class="category-title">Lace Intimates</h3>
+                <h3 class="category-title">Panties</h3>
                 <p class="category-desc">Delicate lace patterns meet supportive design for an effortless feel.</p>
-                <div class="discover-link">
+                <a href="{% url 'category' 'Panties' %}" class="discover-link">
                     Discover More <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
-                </div>
+                </a>
             </div>
 
             <!-- Category 2 -->
@@ -54,14 +54,14 @@
                     <img src="{% static 'assets/zoco-split-1-1.jpg' %}" alt="ZOCO Sets" class="category-img">
                     <div class="category-overlay"></div>
                     <div class="category-btn-container">
-                        <a href="{% url 'collections' %}" class="category-btn">Explore Sets</a>
+                        <a href="{% url 'category' 'Signature-Sets' %}" class="category-btn">View Collections</a>
                     </div>
                 </div>
                 <h3 class="category-title">Signature Sets</h3>
                 <p class="category-desc">Matching sets that define the modern woman's zone of comfort.</p>
-                <div class="discover-link">
+                <a href="{% url 'category' 'Signature-Sets' %}" class="discover-link">
                     Discover More <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
-                </div>
+                </a>
             </div>
 
             <!-- Category 3 -->
@@ -70,14 +70,14 @@
                     <img src="{% static 'assets/zoco-split-2-0.png' %}" alt="ZOCO Premium" class="category-img">
                     <div class="category-overlay"></div>
                     <div class="category-btn-container">
-                        <a href="{% url 'collections' %}" class="category-btn">Shop Premium</a>
+                        <a href="{% url 'category' 'Bra' %}" class="category-btn">View collections</a>
                     </div>
                 </div>
                 <h3 class="category-title">Silk Series</h3>
                 <p class="category-desc">Pure silk essentials that feel like a second skin. Unrivaled luxury.</p>
-                <div class="discover-link">
+                <a href="{% url 'category' 'Bra' %}" class="discover-link">
                     Discover More <i class="fa-solid fa-arrow-right-long arrow-icon"></i>
-                </div>
+                </a>
             </div>
         </div>
     </section>

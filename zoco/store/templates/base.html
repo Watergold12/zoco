@@ -44,6 +44,7 @@
 
         {% if user.is_authenticated %}
             <div class="login-wrapper">
+                <a href="{% url 'update_user' %}" class="login-btn">UPDATE PROFILE</a>
                 <a href="{% url 'logout' %}" class="login-btn">LOGOUT</a>
             </div>
         {% else %}
