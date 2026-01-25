@@ -121,6 +121,7 @@ def update_user(request):
         return render(request, 'update_user.html', {'user_form':user_form})
     else:
         messages.success(request, "Please login to update your profile!!")
+        return redirect('login')
 
 def update_password(request):
     if request.user.is_authenticated:
@@ -129,12 +130,16 @@ def update_password(request):
             form = ChangePasswordForm(current_user, request.POST)
             if form.is_valid():
                 form.save()
-                messages.success(request, "Pasword has been updated! Please Log-in Again!!")
+                messages.success(request, "Pasword has been updated!!!")
+                login(request, current_user)
+                return redirect('home')
             else:
                 for error in list(form.errors.values()):
                     messages.error(request, error)
+                return render(request, 'update_password.html', {'form':form})
         else:
             form = ChangePasswordForm(current_user)
             return render(request, 'update_password.html', {'form':form})
     else:
         messages.success(request, "Please login to update your Pasword!!")
+        return redirect('login')
