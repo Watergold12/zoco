@@ -60,10 +60,16 @@
             </a>
         </div>
     </nav>
-
+    
     <!-- Navigation Links -->
     <div class="nav-links-bar">
-        <a href="{% url 'home' %}" class="nav-link">
+        <a href="
+        {% if request.resolver_match.url_name == 'home' %}
+            #new-arrivals
+        {% else %}
+            {% url 'home' %}
+        {% endif %}
+        " class="nav-link">
             New Arrivals
             <span class="nav-link-underline"></span>
         </a>
