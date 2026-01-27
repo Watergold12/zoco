@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <section class="hero-section hero-section-flexible">
+        <img src="{% static 'assets/zoco-hero.png' %}" alt="ZOCO Hero" class="hero-bg">
+        <div class="hero-overlay"></div>
+
+        <!-- Redesigned Hero Box: Smaller and moved to corner -->
+        <div class="hero-content-1">
+            <div class="glass hero-box scroll-reveal visible">
+                <h2 class="hero-title font-heading" style="margin-bottom: 2rem;">Update User Info</h2>
+                <form method="post" action="{% url 'update_info' %}">
+                    {% csrf_token %}
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Phone</label>
+                        {{ form.phone }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Address 1</label>
+                        {{ form.address1 }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Address 2</label>
+                        {{ form.address2 }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">City</label>
+                        {{ form.city }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">State</label>
+                        {{ form.state }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Zipcode</label>
+                        {{ form.zipcode }}
+                    </div>
+
+                    <div class="form-group font-heading">
+                        <label style="font-weight: bold; margin-bottom: 0.5rem;">Country</label>
+                        {{ form.country }}
+                    </div>
+                    <br>
+                    <button type="submit" class="login-butn">UPDATE</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="hero-vertical-text">
+            ZOCO COLLECTION 2026
+        </div>
+    </section>
+{% endblock %}

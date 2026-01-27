@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .models import Product, Category
+from .models import Product, Category, Profile
 from django.contrib.auth.models import User
-from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm
+from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
 
 def home(request):
     products = Product.objects.all()
@@ -142,4 +142,19 @@ def update_password(request):
             return render(request, 'update_password.html', {'form':form})
     else:
         messages.success(request, "Please login to update your Pasword!!")
+        return redirect('login')
+    
+def update_info(request):
+    if request.user.is_authenticated:
+        current_user = Profile.objects.get(user__id=request.user.id)
+        form = UserInfoForm(request.POST or None, instance=current_user)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your Info has been updated!!")
+            return redirect('home')
+        
+        return render(request, 'update_info.html', {'form':form})
+    else:
+        messages.success(request, "Please login to update your profile!!")
         return redirect('login')

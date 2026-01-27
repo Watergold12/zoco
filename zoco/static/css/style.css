@@ -1805,13 +1805,54 @@ body {
     font-size: 0.85rem;
 }
 
+/* Hero Content for Forms (Register, Update User, etc.) */
 .hero-content-1 {
-    position: absolute;
-    bottom: 0.5rem;
-    left: 5rem;
-    top: 0.5rem;
-    max-width: 24rem;
+    position: relative;
+    padding: 6rem 0;
+    margin-left: 5rem;
+    max-width: 28rem;
+    z-index: 10;
+    width: 100%;
 }
+
+@media (max-width: 768px) {
+    .hero-content-1 {
+        margin-left: 2rem;
+        margin-right: 2rem;
+        max-width: none;
+        padding: 4rem 1rem;
+    }
+}
+
+.hero-section-flexible {
+    height: auto !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    position: relative;
+    background-color: var(--color-softpink);
+}
+
+.hero-section-flexible .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+}
+
+.hero-section-flexible .hero-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(to right, rgba(0,0,0,0.3), transparent);
+}
+
+.hero-section-flexible .hero-content-1 {
+    z-index: 2;
+}
+
 
 .size-guide-table {
     width: 100%;

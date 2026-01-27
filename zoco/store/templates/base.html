@@ -42,18 +42,19 @@
             </div>
         </a>
 
-        {% if user.is_authenticated %}
-            <div class="login-wrapper">
-                <a href="{% url 'update_user' %}" class="login-btn">UPDATE PROFILE</a>
-                <a href="{% url 'logout' %}" class="login-btn">LOGOUT</a>
-            </div>
-        {% else %}
-            <div class="login-wrapper">
-                <a href="{% url 'login' %}" class="login-btn">LOGIN</a>
-            </div>
-        {% endif %}
-
         <div class="flex items-center space-x-8">
+            {% if user.is_authenticated %}
+                    <a href="{% url 'update_user' %}" class="nav-icon-btn cart-icon-wrapper">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    <a href="{% url 'logout' %}" class="nav-icon-btn cart-icon-wrapper">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                    </a>
+            {% else %}
+                    <a href="{% url 'login' %}" class="nav-icon-btn cart-icon-wrapper">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </a>
+            {% endif %}
             <a class="nav-icon-btn cart-icon-wrapper" href="{% url 'cart_summary' %}">
                 <i class="fa-solid fa-bag-shopping"></i>
                 <span class="cart-count" id="cart_quantity">{{ cart|length }}</span>

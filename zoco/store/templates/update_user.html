@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <section class="hero-section">
+    <section class="hero-section hero-section-flexible">
         <img src="{% static 'assets/zoco-hero.png' %}" alt="ZOCO Hero" class="hero-bg">
         <div class="hero-overlay"></div>
 
@@ -40,6 +40,9 @@
                 </form>
                 <div class="register-wrapper" style="margin-top: 1.5rem; text-align: center;">
                     <a href="{% url 'update_password' %}" class="register-btn font-heading" style="font-weight: bold; text-decoration: none;">Forgot Password? OR Need to Change It?</a>
+                </div>
+                <div class="register-wrapper" style="margin-top: 1.5rem; text-align: center;">
+                    <a href="{% url 'update_info' %}" class="register-btn font-heading" style="font-weight: bold; text-decoration: none;">Update your Info?</a>
                 </div>
             </div>
         </div>
