@@ -83,10 +83,12 @@ def register_user(request):
                 password=form.cleaned_data['password1']
             )
             login(request, user)
-            messages.success(request, "Registration successful.")
-            return redirect('home')
+            messages.success(request, "Registration successful - Please Fill Out Your Billing Info!!")
+            return redirect('update_info')
     else:
         form = SignUpForm()
+        messages.success(request, "Whoops.. There is some issue registering. Please try again!!")
+        return redirect('register') 
 
     return render(request, 'register.html', {'form': form})
 
