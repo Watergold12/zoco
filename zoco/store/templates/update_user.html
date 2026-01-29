@@ -33,10 +33,19 @@
                     <br>
                     <button type="submit" class="login-butn">UPDATE</button>
                     {% if user_form.errors %}
-                        <div class="form-errors">
-                            {{ user_form.errors }}
+                        <div class="form-error-box">
+                            <p class="form-error-title">Please fix the following:</p>
+
+                            <ul class="form-error-list">
+                                {% for field in user_form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
                         </div>
                     {% endif %}
+
                 </form>
                 <div class="register-wrapper" style="margin-top: 1.5rem; text-align: center;">
                     <a href="{% url 'update_password' %}" class="register-btn font-heading" style="font-weight: bold; text-decoration: none;">Forgot Password? OR Need to Change It?</a>

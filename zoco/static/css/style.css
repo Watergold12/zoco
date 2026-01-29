@@ -1581,6 +1581,7 @@ body {
     border: none;
     cursor: pointer;
     font-weight: bold;
+    margin: 2%;
 }
 
 .login-butn:hover {
@@ -1941,4 +1942,29 @@ body {
     letter-spacing: 0.1em;
     outline: none;
     transition: border-color 0.3s;
+}
+
+.form-error-box {
+    background-color: #ffecec;
+    border-left: 4px solid #e53935;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border-radius: 6px;
+}
+
+.form-error-title {
+    color: #b71c1c;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-error-list {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: #c62828;
+}
+
+.form-error-list li {
+    margin-bottom: 0.25rem;
+    line-height: 1.4;
 }

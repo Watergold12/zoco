@@ -85,10 +85,10 @@ def register_user(request):
             login(request, user)
             messages.success(request, "Registration successful - Please Fill Out Your Billing Info!!")
             return redirect('update_info')
+        else:
+            messages.error(request, "Whoops.. There is some issue registering. Please try again!!")
     else:
         form = SignUpForm()
-        messages.success(request, "Whoops.. There is some issue registering. Please try again!!")
-        return redirect('register') 
 
     return render(request, 'register.html', {'form': form})
 

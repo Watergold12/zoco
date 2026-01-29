@@ -1,12 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!-- Header Section -->
-    {% comment %} <header style="padding: 5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
-        <div class="section-container" style="padding: 0 2rem; text-align: center;">
-            <h1 class="section-title font-heading" style="font-size: 3.75rem;">Register in ZOCO</h1>
-        </div>
-    </header> {% endcomment %}
 
     <section class="hero-section hero-section-flexible">
         <img src="{% static 'assets/zoco-hero.png' %}" alt="ZOCO Hero" class="hero-bg">
@@ -50,10 +44,19 @@
                     <br>
                     <button type="submit" class="login-butn">REGISTER</button>
                     {% if form.errors %}
-                        <div class="form-errors">
-                            {{ form.errors }}
+                        <div class="form-error-box">
+                        <p class="form-error-title">Please fix the following:</p>
+
+                        <ul class="form-error-list">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
                         </div>
                     {% endif %}
+
                 </form>
             </div>
         </div>
