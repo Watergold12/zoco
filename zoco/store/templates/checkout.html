@@ -232,7 +232,18 @@
                     <h2 class="step-title">Order Summary</h2>
                 </div>
                 <div id="orderSummaryList">
-                    <!-- Injected via JS -->
+                    {% for item in cart_items %}
+                        <div class="checkout-item">
+                            <img src="{{ item.product.image.url }}" class="checkout-item-img">
+                            <div style="flex-grow: 1;">
+                                <h4 class="font-heading" style="font-weight: bold; color: var(--color-midnight);">{{ item.product.name }}</h4>
+                                <p style="font-size: 0.875rem; font-weight: bold; margin-top: 0.5rem;">
+                                    Size: {{ item.size }}
+                                </p>
+                                <p style="font-size: 0.875rem; font-weight: bold; margin-top: 0.5rem;">₹{{ item.product.price|floatformat:0 }} x {{ item.quantity }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
 
@@ -244,25 +255,21 @@
                 <h3 class="price-details-header">Price Details</h3>
 
                 <div class="summary-row">
-                    <span>Price (<span id="totalItemsCount">0</span> items)</span>
-                    <span id="summarySubtotal">₹0</span>
+                    <span>Price ({{ cart|length }} items)</span>
+                    <span>₹{{ cart.get_total|floatformat:0 }}</span>
                 </div>
                 <div class="summary-row">
                     <span>Delivery Charges</span>
-                    <span class="text-deepgreen">Free</span>
+                    <span style="color: var(--color-deepgreen);">Free</span>
                 </div>
-                <!-- <div class="summary-row">
-                    <span>Discount</span>
-                    <span class="text-deepgreen">- ₹2,000</span>
-                </div> -->
 
                 <div class="summary-row total">
                     <span>Total Payable</span>
-                    <span id="summaryTotal">₹0</span>
+                    <span>₹{{ cart.get_total|floatformat:0 }}</span>
                 </div>
 
-                <div class="mt-8 text-xs text-gray-500 font-medium text-center">
-                    <i class="fa-solid fa-shield-halved mr-2 text-deepgreen"></i>
+                <div style="margin-top: 2rem; font-size: 0.75rem; color: var(--color-gray-500); font-weight: 500; text-align: center;">
+                    <i class="fa-solid fa-shield-halved" style="margin-right: 0.5rem; color: var(--color-deepgreen);"></i>
                     Safe and Secure Payments. Easy returns.
                 </div>
             </div>
@@ -270,38 +277,10 @@
 
     </div>
 
-    <script src="js/script.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
     <script>
-
-        function renderCheckoutItems() {
-            const container = document.getElementById('orderSummaryList');
-            if (!container) return;
-
-            container.innerHTML = cart.map(item => `
-                <div class="checkout-item">
-                    <img src="${item.img}" class="checkout-item-img">
-                    <div class="flex-grow">
-                        <h4 class="font-bold text-midnight font-heading">${item.name}</h4>
-                        <p class="text-xs text-gray-500 uppercase tracking-wider mt-1">${item.category}</p>
-                        <p class="text-sm font-bold mt-2">₹${item.price.toLocaleString()} x ${item.qty}</p>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updateSummary() {
-            const total = getCartTotal();
-            const count = getCartCount();
-
-            document.getElementById('summaryTotal').innerText = formatPrice(total);
-            document.getElementById('summarySubtotal').innerText = formatPrice(total);
-            document.getElementById('totalItemsCount').innerText = count;
-        }
-
         function goToPayment() {
-            // Validate form? 
-            // Save address if needed?
-            window.location.href = 'payment.html';
+            window.location.href = '{% url "payment" %}';
         }
     </script>
 </body>

@@ -1968,3 +1968,14 @@ body {
     margin-bottom: 0.25rem;
     line-height: 1.4;
 }
+
+.size-label {
+    display: block;
+    padding: auto;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    font-weight: bold;
+    color: var(--color-midnight);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}

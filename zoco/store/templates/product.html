@@ -28,13 +28,14 @@
                 </div>
 
                 <span class="size-label">Select Size</span>
-                <div class="size-options">
-                    <button class="size-btn" onclick="selectSize(this)">S</button>
-                    <button class="size-btn" onclick="selectSize(this)">M</button>
-                    <button class="size-btn" onclick="selectSize(this)">L</button>
-                    <button class="size-btn" onclick="selectSize(this)">XL</button>
-                    <button class="size-btn" onclick="selectSize(this)">XXL</button>
+                <div class="size-options" id="size-options">
+                    <button class="size-btn" type="button" onclick="selectSize(this)">S</button>
+                    <button class="size-btn" type="button" onclick="selectSize(this)">M</button>
+                    <button class="size-btn" type="button" onclick="selectSize(this)">L</button>
+                    <button class="size-btn" type="button" onclick="selectSize(this)">XL</button>
+                    <button class="size-btn" type="button" onclick="selectSize(this)">XXL</button>
                 </div>
+                <input type="hidden" id="selected-size" value="">
 
                 <a href="{% url 'size_guide' %}" class="size-guide-link">
                     <i class="fa-solid fa-ruler-horizontal" style="margin-right: 0.5rem;"></i>
@@ -72,14 +73,35 @@
         qtyDisplay.textContent = currentQty;
     });
 
+    // Size Selection Logic
+    function selectSize(button) {
+        // Remove selected class from all size buttons
+        const buttons = document.querySelectorAll('.size-btn');
+        buttons.forEach(btn => btn.classList.remove('selected'));
+        
+        // Add selected class to clicked button
+        button.classList.add('selected');
+        
+        // Update hidden input
+        document.getElementById('selected-size').value = button.textContent.trim();
+    }
+
     $(document).on('click', '#add-cart', function(e){
         e.preventDefault();
+        
+        const size = $('#selected-size').val();
+        if (!size) {
+            alert('Please select a size first.');
+            return;
+        }
+
         $.ajax({
             type: 'POST',
             url: '{% url "cart_add" %}',
             data: {
                 product_id: $('#add-cart').val(),
                 product_qty: $('#qty-display').text(),
+                product_size: size,
                 csrfmiddlewaretoken: '{{ csrf_token }}',
                 action: 'post'
             },
@@ -89,7 +111,7 @@
                 showToast();
             },
             error: function(xhr, errmsg, err){
-
+                console.log(err);
             }
         }); 
     })

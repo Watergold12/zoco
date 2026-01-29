@@ -36,12 +36,13 @@ def payment(request):
     })
 
 
+from cart.cart import Cart
+
 def checkout(request):
-    products = Product.objects.all()
-    categories = Category.objects.all()
+    cart = Cart(request)
+    cart_items = cart.get_cart_items()
     return render(request, 'checkout.html', {
-        'products': products,
-        'categories': categories
+        'cart_items': cart_items,
     })
 
 
