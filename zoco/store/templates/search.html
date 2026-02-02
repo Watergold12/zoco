@@ -1,37 +1,32 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <!-- Header Section -->
-    <header style="padding: 2.5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
-        <div class="section-container" style="padding: 0 2rem; text-align: center;">
-            <h1 class="section-title font-heading" style="font-size: 3.75rem;">Search The Collection</h1>
+<section class="search-section">
+    <div class="search-page-container">
+        <h1 class="section-title font-heading scroll-reveal visible" style="text-align: center; margin-bottom: 3rem;">Find Your Comfort</h1>
+        
+        <div class="search-input-wrapper scroll-reveal visible">
+            <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
+            <input type="text" id="searchInput" placeholder="Search collections, essentials, new arrivals..."
+                class="search-input">
         </div>
-    </header>
 
-    <section>
-        <div id="searchOverlay" class="search-overlay">
-            <button class="search-close-btn">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="search-container">
-                <h2 class="font-heading"
-                    style="font-size: 1.875rem; font-weight: bold; text-align: center; margin-bottom: 2rem; color: var(--color-midnight);">
-                    Find Your Comfort</h2>
-                <div class="search-input-wrapper">
-                    <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
-                    <input type="text" id="searchInput" placeholder="Search collections, essentials, new arrivals..."
-                        class="search-input">
-                </div>
-                <div id="searchResults" class="custom-scrollbar"
-                    style="margin-top: 2.5rem; max-height: 60vh; overflow-y: auto;">
-                    <!-- Results injected here -->
-                </div>
+        <div id="searchResults" class="search-results-grid">
+            <!-- Results will be injected here via script.js -->
+            <div id="initial-state" style="text-align: center; color: var(--color-gray-400); padding: 4rem; grid-column: 1 / -1;">
+                <p style="font-size: 1.125rem; font-style: italic;">Start typing to search our premium collection...</p>
             </div>
         </div>
-    </section>
-
+    </div>
+</section>
 
 <script>
-    
+    document.addEventListener('DOMContentLoaded', () => {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+            searchInput.focus();
+        }
+    });
 </script>
 {% endblock %}
+

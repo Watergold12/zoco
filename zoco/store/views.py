@@ -163,4 +163,5 @@ def update_info(request):
         return redirect('login')
     
 def search(request):
-    return render(request, 'search.html')
+    products = Product.objects.all()
+    return render(request, 'search.html', {'products': products})
