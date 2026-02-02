@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <!-- Header Section -->
+    <header style="padding: 2.5rem 0; background-color: white; border-bottom: 1px solid var(--color-rose-50);">
+        <div class="section-container" style="padding: 0 2rem; text-align: center;">
+            <h1 class="section-title font-heading" style="font-size: 3.75rem;">Search The Collection</h1>
+        </div>
+    </header>
+
+    <section>
+        <div id="searchOverlay" class="search-overlay">
+            <button class="search-close-btn">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="search-container">
+                <h2 class="font-heading"
+                    style="font-size: 1.875rem; font-weight: bold; text-align: center; margin-bottom: 2rem; color: var(--color-midnight);">
+                    Find Your Comfort</h2>
+                <div class="search-input-wrapper">
+                    <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
+                    <input type="text" id="searchInput" placeholder="Search collections, essentials, new arrivals..."
+                        class="search-input">
+                </div>
+                <div id="searchResults" class="custom-scrollbar"
+                    style="margin-top: 2.5rem; max-height: 60vh; overflow-y: auto;">
+                    <!-- Results injected here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<script>
+    
+</script>
+{% endblock %}

@@ -31,9 +31,9 @@
     <!-- Navigation -->
     <nav class="main-nav">
         <div class="flex items-center">
-            <button onclick="toggleSearch()" class="nav-icon-btn search-icon">
+            <a href="{% url 'search' %}" class="nav-icon-btn search-icon">
                 <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+            </a>
         </div>
 
         <a href="{% url 'home' %}" class="nav-logo-container group">

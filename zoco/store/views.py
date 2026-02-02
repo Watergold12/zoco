@@ -161,3 +161,6 @@ def update_info(request):
     else:
         messages.success(request, "Please login to update your profile!!")
         return redirect('login')
+    
+def search(request):
+    return render(request, 'search.html')
