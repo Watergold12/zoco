@@ -3,19 +3,52 @@
 {% block content %}
 <section class="search-section">
     <div class="search-page-container">
-        <h1 class="section-title font-heading scroll-reveal visible" style="text-align: center; margin-bottom: 3rem;">Find Your Comfort</h1>
+        <h1 class="section-title font-heading scroll-reveal visible" style="text-align: center; margin-bottom: 3rem;">
+            {% if searched %}
+                Search Results for "{{ searched }}"
+            {% else %}
+                Find Your Comfort
+            {% endif %}
+        </h1>
         
-        <div class="search-input-wrapper scroll-reveal visible">
-            <i class="fa-solid fa-magnifying-glass search-input-icon"></i>
-            <input type="text" id="searchInput" placeholder="Search collections, essentials, new arrivals..."
-                class="search-input">
-        </div>
+        <form method="POST" action="{% url 'search' %}" class="search-input-wrapper scroll-reveal visible">
+            {% csrf_token %}
+            <button type="submit" style="background: none; border: none; cursor: pointer; position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); z-index: 10;">
+                <i class="fa-solid fa-magnifying-glass" style="font-size: 1.5rem; color: var(--color-gray-400);"></i>
+            </button>
+            <input type="text" name="searched" id="searchInput" placeholder="Enter product name..."
+                class="search-input" value="{{ searched|default:'' }}" autocomplete="off">
+        </form>
 
+        <!-- Search results section -->
         <div id="searchResults" class="search-results-grid">
-            <!-- Results will be injected here via script.js -->
-            <div id="initial-state" style="text-align: center; color: var(--color-gray-400); padding: 4rem; grid-column: 1 / -1;">
-                <p style="font-size: 1.125rem; font-style: italic;">Start typing to search our premium collection...</p>
-            </div>
+            {% if searched %}
+                {% for product in search_results %}
+                    <div class="product-card scroll-reveal visible">
+                            <div class="product-image-container aspect-square bg-white shadow-sm">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-img">
+                                {% if product.is_new %}
+                                    <div class="new-badge">
+                                        <span class="new-badge-text">New In</span>
+                                    </div>
+                                {% endif %}
+                                <div class="product-overlay">
+                                    <a href="{% url 'product_detail' product.id %}" class="add-cart-btn">
+                                        View Product
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product-info">
+                                <a class="product-title" href="{% url 'product_detail' product.id %}">{{ product.name }}</a>
+                                <p class="product-price">₹{{ product.price }}</p>
+                            </div>
+                        </div>
+                {% endfor %}
+            {% else %}
+                <div id="initial-state" style="text-align: center; color: var(--color-gray-400); padding: 4rem; grid-column: 1 / -1;">
+                    <p style="font-size: 1.125rem; font-style: italic;">Search our premium collection......</p>
+                </div>
+            {% endif %}
         </div>
     </div>
 </section>
@@ -25,8 +58,13 @@
         const searchInput = document.getElementById('searchInput');
         if (searchInput) {
             searchInput.focus();
+            // Move cursor to end of text
+            const val = searchInput.value;
+            searchInput.value = '';
+            searchInput.value = val;
         }
     });
 </script>
 {% endblock %}
+
 

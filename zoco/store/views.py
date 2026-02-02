@@ -163,5 +163,20 @@ def update_info(request):
         return redirect('login')
     
 def search(request):
-    products = Product.objects.all()
-    return render(request, 'search.html', {'products': products})
+    if request.method == "POST":
+        searched = request.POST['searched']
+        search_results = Product.objects.filter(name__icontains=searched) | \
+                         Product.objects.filter(category__name__icontains=searched) | \
+                         Product.objects.filter(description__icontains=searched)
+                         
+        search_results = search_results.distinct()
+        
+        if not search_results:
+            messages.success(request, "That product doesn't exist!!")
+            return render(request, 'search.html', {'searched': searched})
+        else:
+            return render(request, 'search.html', {'searched': searched, 'search_results': search_results})
+    else:
+        return render(request, 'search.html', {})
+
+

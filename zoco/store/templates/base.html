@@ -154,7 +154,7 @@
     <!-- Scripts -->
     <script>
         const products = [
-            {% for product in products %}
+            {% for product in all_products %}
             {
                 id: {{ product.id }},
                 name: "{{ product.name|escapejs }}",
@@ -166,6 +166,7 @@
             {% endfor %}
         ];
     </script>
+
     <script src="{% static 'js/script.js' %}"></script>
     <script>
         // Scroll Reveal
