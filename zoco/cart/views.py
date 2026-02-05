@@ -36,7 +36,7 @@ def cart_add(request):
 def cart_delete(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
-        # get stuff - this is now the compound key 'product_id_size'
+        # get stuff - this is just the product_id now
         product_key = request.POST.get('product_id')
 
         cart.delete(product_key=product_key)
@@ -48,7 +48,7 @@ def cart_delete(request):
 def cart_update(request):
     cart = Cart(request)
     if request.POST.get('action') == 'post':
-        # get stuff - this is now the compound key 'product_id_size'
+        # get stuff - this is just the product_id now
         product_key = request.POST.get('product_id')
         product_qty = int(request.POST.get('product_qty'))
 

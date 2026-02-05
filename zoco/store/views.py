@@ -4,6 +4,8 @@ from django.contrib import messages
 from .models import Product, Category, Profile
 from django.contrib.auth.models import User
 from .forms import SignUpForm, UpdateUserForm, ChangePasswordForm, UserInfoForm
+import json
+from cart.cart import Cart
 
 def home(request):
     products = Product.objects.all()
@@ -57,8 +59,27 @@ def login_user(request):
         password = request.POST.get('password')
 
         user = authenticate(request, username=username, password=password)
-        if user:
+        if user is not None:
             login(request, user)
+            # Shopping cart memory
+            current_user = Profile.objects.filter(user__id=request.user.id).first()
+            # get their cart
+            saved_cart = current_user.old_cart if current_user else None
+            # xonvert database string to python dictionary
+            if saved_cart:
+                converted_cart = json.loads(saved_cart)
+                # update session cart
+                cart = Cart(request)
+                # Loop through the cart and add items
+                for key, value in converted_cart.items():
+                    if isinstance(value, dict):
+                        cart.add(
+                            product=key,
+                            quantity=value.get('quantity') or value.get('qty') or 0,
+                            size=value.get('size')
+                        )
+                    else:
+                        cart.add(product=key, quantity=value)
             messages.success(request, "Logged in successfully.")
             return redirect('home')
 
