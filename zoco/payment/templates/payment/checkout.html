@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<body class="bg-softpink font-sans text-midnight">
+
+    <div class="checkout-container animate-fade-up">
+
+        <!-- Left Column -->
+        <div class="checkout-main">
+
+            <!-- Login Step -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <h2 class="step-title">Login</h2>
+                    {% if user.is_authenticated %}
+                    <i class="fa-solid fa-check text-deepgreen ml-auto"></i>
+                    {% endif %}
+                </div>
+                <div class="pl-12">
+                    {% if user.is_authenticated %}
+                        <p class="text-sm text-gray-500 font-bold uppercase tracking-widest">{{ user.phone|default:user.email }}</p>
+                    {% else %}
+                        <p class="text-sm text-gray-500">Please <a href="{% url 'login' %}" class="text-deepgreen font-bold">login</a> to continue</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Address Step -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <h2 class="step-title">Delivery Address</h2>
+                </div>
+
+                {% if shipping_form.errors %}
+                <div class="form-errors" style="margin: 1rem 0; padding: 1rem; background-color: #fee; border-left: 4px solid #c33; color: #c33;">
+                    <strong>Please correct the following errors:</strong>
+                    <ul style="margin: 0.5rem 0 0 1.5rem;">
+                        {% for field, errors in shipping_form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+
+                <form id="addressForm" method="POST" action="{% url 'checkout' %}">
+                    {% csrf_token %}
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" name="shipping_full_name" class="form-input" required placeholder="Full Name" 
+                                   value="{{ shipping_form.shipping_full_name.value|default:user.get_full_name|default:'' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="shipping_email" class="form-input" required placeholder="Email Address" 
+                                   value="{{ shipping_form.shipping_email.value|default:user.email|default:'' }}">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label class="form-label">Pin Code</label>
+                        <input type="text" name="shipping_zipcode" class="form-input" required placeholder="Pincode" 
+                               style="width: 50%;" pattern="[0-9]{6}" maxlength="6" 
+                               value="{{ shipping_form.shipping_zipcode.value|default:'' }}">
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label class="form-label">Address Line 1</label>
+                        <textarea name="shipping_address1" class="form-input" rows="2" required 
+                                  placeholder="Area and Street">{{ shipping_form.shipping_address1.value|default:'' }}</textarea>
+                    </div>
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <label class="form-label">Address Line 2</label>
+                        <textarea name="shipping_address2" class="form-input" rows="2" required 
+                                  placeholder="Landmark, Building, etc.">{{ shipping_form.shipping_address2.value|default:'' }}</textarea>
+                    </div>
+                    <div class="form-grid" style="margin-top: 1.5rem;">
+                        <div class="form-group">
+                            <label class="form-label">City/District/Town</label>
+                            <input type="text" name="shipping_city" class="form-input" required 
+                                   value="{{ shipping_form.shipping_city.value|default:'' }}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" name="shipping_state" class="form-input" required 
+                                   value="{{ shipping_form.shipping_state.value|default:'' }}">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary"
+                        style="margin-top: 2rem; background: #2C3E50; border: none; box-shadow: none;">
+                        Deliver Here
+                    </button>
+                </form>
+            </div>
+
+            <!-- Order Summary Preview -->
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <h2 class="step-title">Order Summary</h2>
+                </div>
+                <div id="orderSummaryList">
+                    {% for item in cart_items %}
+                        <div class="checkout-item">
+                            <img src="{{ item.product.image.url }}" class="checkout-item-img">
+                            <div style="flex-grow: 1;">
+                                <h4 class="font-heading" style="font-weight: bold; color: var(--color-midnight);">{{ item.product.name }}</h4>
+                                <p style="font-size: 0.875rem; font-weight: bold; margin-top: 0.5rem;">
+                                    Size: {{ item.size }}
+                                </p>
+                                <p style="font-size: 0.875rem; font-weight: bold; margin-top: 0.5rem;">₹{{ item.product.price|floatformat:0 }} x {{ item.quantity }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Right Column (Price Details) -->
+        <div class="checkout-sidebar">
+            <div class="summary-card shadow-sm border border-rose-50">
+                <h3 class="price-details-header">Price Details</h3>
+
+                <div class="summary-row">
+                    <span>Price ({{ cart|length }} items)</span>
+                    <span>₹{{ cart.get_total|floatformat:0 }}</span>
+                </div>
+                <div class="summary-row">
+                    <span>Delivery Charges</span>
+                    <span style="color: var(--color-deepgreen);">Free</span>
+                </div>
+
+                <div class="summary-row total">
+                    <span>Total Payable</span>
+                    <span>₹{{ cart.get_total|floatformat:0 }}</span>
+                </div>
+
+                <div style="margin-top: 2rem; font-size: 0.75rem; color: var(--color-gray-500); font-weight: 500; text-align: center;">
+                    <i class="fa-solid fa-shield-halved" style="margin-right: 0.5rem; color: var(--color-deepgreen);"></i>
+                    Safe and Secure Payments. Easy returns.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+{% endblock %}
