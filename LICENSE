@@ -1,15 +1,227 @@
-MIT License
+# ZOCO WEBSITE PROPRIETARY LICENSE AGREEMENT
 
-Copyright (c) 2026 Vishal AA
+Version 2.0
+Effective Date: 2026
+© 2026 Zoco. All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+---
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+## 1. DEFINITIONS
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+“Zoco” refers to the owner, operator, and rights holder of the Zoco website, software, systems, and services.
+
+“Platform” refers to the Zoco website, including all source code, backend systems, APIs, databases, UI/UX, algorithms, architecture, content, and services.
+
+“User” refers to any individual or entity accessing or using the Platform.
+
+---
+
+## 2. OWNERSHIP AND INTELLECTUAL PROPERTY
+
+The Platform and all associated intellectual property are the exclusive property of Zoco.
+
+This includes but is not limited to:
+
+* Source code and object code
+* Design, layout, themes, UI/UX
+* Algorithms and business logic
+* Databases and structured data
+* Graphics, media, and branding
+* Trade secrets and proprietary methods
+
+Nothing in this Agreement transfers ownership rights to any User.
+
+All rights not expressly granted are strictly reserved.
+
+---
+
+## 3. LIMITED LICENSE GRANT
+
+Zoco grants a limited, revocable, non-exclusive, non-transferable, non-sublicensable license to access and use the Platform solely for its intended purpose.
+
+This license:
+
+* Does not permit copying or redistribution
+* Does not permit modification or derivative works
+* Does not permit commercial exploitation
+* Does not permit API abuse or system replication
+
+Zoco may revoke this license at any time without prior notice.
+
+---
+
+## 4. STRICT PROHIBITIONS
+
+Users are strictly prohibited from:
+
+* Reverse engineering, decompiling, or disassembling the Platform
+* Copying design, layout, features, workflows, or functionality
+* Scraping, crawling, or extracting data using automated tools
+* Replicating or cloning the Platform in whole or in part
+* Bypassing security mechanisms
+* Attempting unauthorized access to servers, databases, or APIs
+* Benchmarking the Platform to build a competing product
+* Using the Platform to develop a similar or competing service
+
+Violation may result in:
+
+* Immediate termination
+* Legal action
+* Claims for damages
+* Injunctive relief
+
+---
+
+## 5. USER CONTENT OWNERSHIP
+
+### 5.1 Ownership
+
+Users retain ownership of content they create or upload ("User Content").
+
+However, by submitting User Content, the User grants Zoco a:
+
+* Worldwide
+* Royalty-free
+* Perpetual
+* Irrevocable
+* Transferable
+* Sub-licensable
+
+license to use, host, store, reproduce, modify, distribute, and display such content solely for operating, improving, promoting, and securing the Platform.
+
+### 5.2 Responsibility
+
+Users are solely responsible for:
+
+* The legality of their content
+* Ensuring they own rights to submitted material
+* Any infringement caused by their content
+
+Zoco is not responsible for User Content.
+
+### 5.3 Removal
+
+Zoco reserves the right to:
+
+* Remove any User Content
+* Restrict access
+* Suspend accounts
+
+without notice if content violates law, policy, or harms the Platform.
+
+---
+
+## 6. DATA PRIVACY AND PROTECTION
+
+### 6.1 Data Collection
+
+Zoco may collect:
+
+* Account information
+* Usage data
+* Device information
+* Log files
+* Cookies and analytics data
+
+### 6.2 Data Usage
+
+Data may be used for:
+
+* Operating and maintaining the Platform
+* Security monitoring
+* Fraud detection
+* Performance optimization
+* Legal compliance
+
+### 6.3 Data Security
+
+Zoco implements reasonable technical and organizational safeguards.
+However, no system is completely secure, and absolute security is not guaranteed.
+
+### 6.4 No Sale of Personal Data
+
+Zoco does not sell personal data to third parties without explicit consent, except where required by law.
+
+### 6.5 Legal Disclosure
+
+Zoco may disclose data if required by:
+
+* Court order
+* Government authority
+* Legal investigation
+
+---
+
+## 7. CONFIDENTIALITY
+
+Any non-public information regarding the Platform, including technical systems, business strategies, or unreleased features, is confidential.
+
+Unauthorized disclosure is strictly prohibited.
+
+---
+
+## 8. DISCLAIMER OF WARRANTIES
+
+The Platform is provided "AS IS" and "AS AVAILABLE" without warranties of any kind, including:
+
+* Merchantability
+* Fitness for a particular purpose
+* Accuracy
+* Non-infringement
+* Availability or uptime
+
+Zoco makes no guarantee that the Platform will be uninterrupted, secure, or error-free.
+
+---
+
+## 9. LIMITATION OF LIABILITY
+
+To the maximum extent permitted by law:
+
+Zoco shall not be liable for:
+
+* Indirect damages
+* Loss of profits
+* Loss of business
+* Loss of data
+* Security breaches
+* Service interruptions
+
+Total liability, if any, shall not exceed the amount paid by the User to Zoco in the preceding 12 months.
+
+---
+
+## 10. INDEMNIFICATION
+
+Users agree to indemnify and hold harmless Zoco from any claims, damages, liabilities, costs, or expenses arising from:
+
+* Violation of this Agreement
+* Infringement caused by User Content
+* Misuse of the Platform
+
+---
+
+## 11. TERMINATION
+
+Zoco may suspend or terminate access immediately and without notice for any violation.
+
+Upon termination:
+
+* All licenses granted are revoked
+* Access rights cease immediately
+
+---
+
+## 12. GOVERNING LAW AND JURISDICTION
+
+This Agreement shall be governed by the laws of India.
+
+All disputes shall be subject to the exclusive jurisdiction of courts in India.
+
+---
+
+## 13. MODIFICATIONS
+
+Zoco reserves the right to modify this Agreement at any time.
+
+Continued use of the Platform constitutes acceptance of updated terms.
