@@ -100,7 +100,7 @@
                             style="font-size: 1.5rem; font-weight: bold; color: var(--color-rosegold);">₹{{ cart.get_total }}</span>
                     </div>
                 </div>
-                <a href="{% url 'checkout' %}" class="btn-primary">Checkout Securely</a>
+                <a href="{% url 'payment:checkout' %}" class="btn-primary">Checkout Securely</a>
             </div>
         {% endif %}
     </div>

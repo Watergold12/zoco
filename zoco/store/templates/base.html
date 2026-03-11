@@ -63,26 +63,28 @@
     </nav>
     
     <!-- Navigation Links -->
-    <div class="nav-links-bar">
-        <a href="
-        {% if request.resolver_match.url_name == 'home' %}
-            #new-arrivals
-        {% else %}
-            {% url 'home' %}
-        {% endif %}
-        " class="nav-link">
-            New Arrivals
-            <span class="nav-link-underline"></span>
-        </a>
-        <a href="{% url 'collections' %}" class="nav-link">
-            Collections
-            <span class="nav-link-underline"></span>
-        </a>
-        <a href="{% url 'story' %}" class="nav-link">
-            Our Story
-            <span class="nav-link-underline"></span>
-        </a>
-    </div>
+    {% if request.resolver_match.url_name != "checkout" %}
+        <div class="nav-links-bar">
+            <a href="
+            {% if request.resolver_match.url_name == 'home' %}
+                #new-arrivals
+            {% else %}
+                {% url 'home' %}
+            {% endif %}
+            " class="nav-link">
+                New Arrivals
+                <span class="nav-link-underline"></span>
+            </a>
+            <a href="{% url 'collections' %}" class="nav-link">
+                Collections
+                <span class="nav-link-underline"></span>
+            </a>
+            <a href="{% url 'story' %}" class="nav-link">
+                Our Story
+                <span class="nav-link-underline"></span>
+            </a>
+        </div>
+    {% endif %}
 
     <!-- Main Content -->
     {% block content %}    

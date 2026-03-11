@@ -23,6 +23,13 @@ class Shipping_Address(models.Model):
 # Create Order class 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    shipping_address_ref = models.ForeignKey(
+        Shipping_Address,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='orders',
+    )
     full_name = models.CharField(max_length=250)
     email = models.EmailField(max_length=250)
     shipping_address = models.TextField(max_length=15000)
