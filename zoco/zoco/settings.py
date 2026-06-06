@@ -34,6 +34,9 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://zoco-production.up.railway.app",
+]
 
 # Application definition
 
@@ -146,12 +149,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 WHITENOISE_USE_FINDERS = True
-
-# STORAGES = {
-#     "staticfiles": {
-#         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
-#     },
-# }
 
 MEDIA_URL = 'media/'
 
