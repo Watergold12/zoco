@@ -35,7 +35,7 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "https://zoco-production.up.railway.app",
+    "https://zoco.up.railway.app",
 ]
 
 # Application definition
