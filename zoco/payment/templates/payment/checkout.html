@@ -139,8 +139,8 @@
                     <span>₹{{ cart.get_total|floatformat:0 }}</span>
                 </div>
 
-                <button class="pay-btn-large">
-                    Pay <span >₹{{ cart.get_total|floatformat:0 }}</span>
+                <button id="payButton" class="pay-btn-large">
+                    Pay <span id="payAmount">₹{{ cart.get_total|floatformat:0 }}</span>
                 </button>
 
                 <div style="margin-top: 2rem; font-size: 0.75rem; color: var(--color-gray-500); font-weight: 500; text-align: center;">
@@ -153,5 +153,112 @@
     </div>
 
     <script src="{% static 'js/script.js' %}"></script>
+
+    <!-- Razorpay Checkout Script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    
+    <script>
+    document.getElementById('payButton').addEventListener('click', async function(e) {
+        e.preventDefault();
+        
+        // Check if cart is empty
+        const cartItems = document.querySelectorAll('#orderSummaryList .checkout-item');
+        if (cartItems.length === 0) {
+            alert('Your cart is empty!');
+            return;
+        }
+
+        // Disable button while processing
+        const payBtn = document.getElementById('payButton');
+        const originalText = payBtn.innerHTML;
+        payBtn.disabled = true;
+        payBtn.innerHTML = '<span>Processing...</span>';
+
+        try {
+            // Step 1: Create Razorpay Order
+            const createOrderResponse = await fetch('{% url "payment:create_order" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+            });
+
+            const orderData = await createOrderResponse.json();
+
+            if (!orderData.success) {
+                alert('Error: ' + (orderData.message || 'Failed to create order'));
+                payBtn.disabled = false;
+                payBtn.innerHTML = originalText;
+                return;
+            }
+
+            // Step 2: Open Razorpay Checkout Modal
+            const options = {
+                key: orderData.razorpay_key_id,
+                amount: orderData.amount,
+                currency: 'INR',
+                order_id: orderData.razorpay_order_id,
+                name: 'ZOCO',
+                description: 'Purchase Products',
+                image: '{% static "assets/favicon_io2/favicon.ico" %}',
+                prefill: {
+                    email: orderData.user_email,
+                    name: orderData.user_name,
+                },
+                theme: {
+                    color: '#2C3E50',
+                },
+                handler: async function(response) {
+                    // Step 3: Verify Payment on Backend
+                    try {
+                        const verifyResponse = await fetch('{% url "payment:verify_payment" %}', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}',
+                            },
+                            body: JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                razorpay_order_id: response.razorpay_order_id,
+                                razorpay_signature: response.razorpay_signature,
+                            }),
+                        });
+
+                        const verifyData = await verifyResponse.json();
+
+                        if (verifyData.success) {
+                            alert('Payment successful! Order #' + verifyData.order_id);
+                            window.location.href = verifyData.redirect_url;
+                        } else {
+                            alert('Payment verification failed: ' + (verifyData.message || 'Unknown error'));
+                            payBtn.disabled = false;
+                            payBtn.innerHTML = originalText;
+                        }
+                    } catch (error) {
+                        alert('Error verifying payment: ' + error.message);
+                        payBtn.disabled = false;
+                        payBtn.innerHTML = originalText;
+                    }
+                },
+                modal: {
+                    ondismiss: function() {
+                        alert('Payment cancelled');
+                        payBtn.disabled = false;
+                        payBtn.innerHTML = originalText;
+                    }
+                }
+            };
+
+            const razorpay = new Razorpay(options);
+            razorpay.open();
+
+        } catch (error) {
+            alert('Error: ' + error.message);
+            payBtn.disabled = false;
+            payBtn.innerHTML = originalText;
+        }
+    });
+    </script>
 </body>
 {% endblock %}

@@ -1,4 +1,6 @@
 import json
+import hmac
+import hashlib
 
 from django.contrib import messages
 from django.db import transaction
@@ -6,12 +8,22 @@ from django.http import JsonResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views.decorators.http import require_POST
+from django.views.decorators.csrf import csrf_exempt
+import os
+
+import razorpay
+import zoco.settings as settings
 
 from cart.cart import Cart
 from store.models import Profile
 
 from .forms import ShippingForm
 from .models import Order, OrderItem, Shipping_Address
+
+# Initialize Razorpay client
+razorpay_client = razorpay.Client(
+    auth=(os.getenv('RAZORPAY_KEY_ID'), os.getenv('RAZORPAY_KEY_SECRET'))
+)
 
 # Create your views here.
 def payment_success(request):
@@ -148,3 +160,131 @@ def checkout(request):
     }
 
     return render(request, 'payment/checkout.html', context)
+
+
+@require_POST
+def create_razorpay_order(request):
+    """
+    API endpoint to create a Razorpay order.
+    Called by frontend before opening Razorpay checkout modal.
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'message': 'Authentication required.'}, status=401)
+
+    try:
+        cart = Cart(request)
+        total_amount = cart.get_total()
+
+        # Convert to paise (Razorpay uses paise, 1 INR = 100 paise)
+        amount_in_paise = int(float(total_amount) * 100)
+
+        # Minimum amount check
+        if amount_in_paise < 100:
+            return JsonResponse({
+                'success': False,
+                'message': 'Minimum order amount is ₹1'
+            }, status=400)
+
+        print("KEY:", settings.RAZORPAY_KEY_ID)
+        
+        # Create Razorpay order
+        razorpay_order = razorpay_client.order.create({
+            'amount': amount_in_paise,
+            'currency': 'INR',
+            'receipt': f'order_{request.user.id}_{request.session.session_key}',
+        })
+        
+        print("ORDER:", razorpay_order)
+
+        return JsonResponse({
+            'success': True,
+            'razorpay_order_id': razorpay_order['id'],
+            'razorpay_key_id': os.getenv('RAZORPAY_KEY_ID'),
+            'amount': amount_in_paise,
+            'user_email': request.user.email,
+            'user_name': request.user.get_full_name() or request.user.username,
+        })
+
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': f'Error creating order: {str(e)}'
+        }, status=500)
+
+
+@csrf_exempt
+@require_POST
+def verify_razorpay_payment(request):
+    """
+    API endpoint to verify Razorpay payment signature.
+    Called after user completes payment on Razorpay modal.
+    """
+    if not request.user.is_authenticated:
+        return JsonResponse({'success': False, 'message': 'Authentication required.'}, status=401)
+
+    try:
+        data = json.loads(request.body)
+        razorpay_payment_id = data.get('razorpay_payment_id')
+        razorpay_order_id = data.get('razorpay_order_id')
+        razorpay_signature = data.get('razorpay_signature')
+
+        # Validate required fields
+        if not all([razorpay_payment_id, razorpay_order_id, razorpay_signature]):
+            return JsonResponse({
+                'success': False,
+                'message': 'Missing payment details'
+            }, status=400)
+
+        # Verify signature using HMAC-SHA256
+        key_secret = os.getenv('RAZORPAY_KEY_SECRET')
+        generated_signature = hmac.new(
+            key_secret.encode(),
+            f'{razorpay_order_id}|{razorpay_payment_id}'.encode(),
+            hashlib.sha256
+        ).hexdigest()
+
+        if generated_signature != razorpay_signature:
+            return JsonResponse({
+                'success': False,
+                'message': 'Payment signature verification failed'
+            }, status=400)
+
+        # Signature verified, now create the order
+        shipping_address = Shipping_Address.objects.filter(user=request.user).order_by('id').first()
+        if not shipping_address:
+            return JsonResponse({
+                'success': False,
+                'message': 'Shipping address not found'
+            }, status=400)
+
+        cart = Cart(request)
+        try:
+            order = create_order_from_cart(request.user, cart, shipping_address)
+        except ValueError as exc:
+            return JsonResponse({
+                'success': False,
+                'message': str(exc)
+            }, status=400)
+
+        # Clear cart
+        request.session['session_key'] = {}
+        request.session.modified = True
+        Profile.objects.filter(user=request.user).update(old_cart=json.dumps({}))
+
+        return JsonResponse({
+            'success': True,
+            'message': 'Payment verified successfully',
+            'order_id': order.id,
+            'redirect_url': reverse('payment:payment_success'),
+        })
+
+    except json.JSONDecodeError:
+        return JsonResponse({
+            'success': False,
+            'message': 'Invalid request format'
+        }, status=400)
+    except Exception as e:
+        return JsonResponse({
+            'success': False,
+            'message': f'Error verifying payment: {str(e)}'
+        }, status=500)

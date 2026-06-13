@@ -8,6 +8,11 @@ venv/
 env/
 ENV/
 
+# Environment files
+.env
+.env.local
+.env.*.local
+
 # Django / local runtime files
 *.sqlite3
 db.sqlite3
